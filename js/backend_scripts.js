@@ -44,8 +44,8 @@ class ContentObject{
              $.ajax({
                 url: demo.url,
                 success: function(data) {
-                var imger = $(data).find("picture:first").find("source:first").attr("srcset"));
-                demo.img = imger
+                var imger = $(data).find("picture:first").find("source:first").attr("srcset");
+                demo.img = imger;
                 espn_content.add(demo);
                 }
              });
@@ -53,7 +53,7 @@ class ContentObject{
     demos.push(demo);
 
   });
- };
+ }
 //
 //  //VIMEO
 //  function xmlParserVimeo(xml) {
