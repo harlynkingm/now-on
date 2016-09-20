@@ -46,7 +46,7 @@ class ContentObject{
                 success: function(data) {
                 var imger = $(data).find("picture:first").find("source:first").attr("srcset");
                 demo.img = imger;
-                espn_content.add(demo);
+                espn_content.push(demo);
                 }
              });
 
