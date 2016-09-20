@@ -37,6 +37,20 @@ a{
   display: block;
 }
 
+.settings-button{
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 35px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+  cursor:pointer;
+}
+
+.settings-button:hover{
+  opacity: 0.8;
+}
+
 .weather-icon{
 	height: 62px;
 }

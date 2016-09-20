@@ -11,10 +11,11 @@ jQuery(document).ready(function(){
 	function updateTime(){
 		var d = new Date();
 		var hours = d.getHours()%12 < 10 ? "0" + d.getHours()%12 : d.getHours()%12;
+        if (hours == "00") hours = "12";
 		var minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
 		var seconds = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
-//		var timeStr = hours + " " + minutes + " " + seconds;
-        var timeStr = hours + " " + minutes;
+		var timeStr = hours + " " + minutes + " " + seconds;
+//        var timeStr = hours + " " + minutes;
 		$("#time-block").html(timeStr);
 	}
 	
