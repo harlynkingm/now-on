@@ -1,11 +1,20 @@
 $(document).ready(function () {
-  
-//  $.ajax({
-//      type: "GET",
-//      url: "http://www.espn.com/espn/rss/news",
-//      dataType: "xml",
-//      success: xmlParser
-//     });
+//push all content to demos array then pick a random 7
+var demos = [];
+class ContentObject{
+  constructor(title, source, img, url){
+    this.title = title; //String article title
+    this.source = source; //String source website
+    this.img = img; //String image url
+    this.url = url; //String article url
+  }
+};
+ $.ajax({
+     type: "GET",
+     url: "http://www.espn.com/espn/rss/news",
+     dataType: "xml",
+     success: xmlParser
+    });
 //  $.ajax({
 //      type: "GET",
 //      url: "https://vimeo.com/channels/staffpicks/videos/rss",
@@ -21,32 +30,30 @@ $(document).ready(function () {
 //     });
 //  });
 //
-//  function xmlParser(xml) {
-//
-//  $('#load').fadeOut();
-//  var $index = 0;
-//
-//  $(xml).find("item").each(function () {
-//
-//
-//      $(".book").fadeIn(1000);
-//      $(".main").append('<div class="espn '+$index+ '"><div class="title">' + $(this).find("description").text() + '<div class="title">' + $(this).find("link").text() +'</div>'+ '<br /></div></div>');
-//      // ADD PICTURE
-//
-//
-//          $index++;
-//              $.ajax({
-//                 url: $(this).find("link").text(),
-//                 success: function(data) {
-//                  // console.log($(data).find("picture:first").find("source:first").attr("srcset"));
-//                          var img = $('<img id="dynamic">'); //Equivalent: $(document.createElement('img'))
-//                                          img.attr('src', $(data).find("picture:first").find("source:first").attr("srcset"));
-//                                          $(".main").append(img);
-//                 }
-//              });
-//
-//   });
-//  };
+ function xmlParser(xml) {
+
+ var espn_content = [];
+
+ $(xml).find("item").each(function () {
+
+      var demo = new ContentObject();
+      demo.title= $(this).find("description").text();
+      demo.source="ESPN";
+      demo.url=$(this).find("link").text();
+
+             $.ajax({
+                url: demo.url,
+                success: function(data) {
+                var imger = $(data).find("picture:first").find("source:first").attr("srcset"));
+                demo.img = imger
+                espn_content.add(demo);
+                }
+             });
+
+    demos.push(demo);
+
+  });
+ };
 //
 //  //VIMEO
 //  function xmlParserVimeo(xml) {
@@ -74,19 +81,11 @@ $(document).ready(function () {
 //      $(".main").append('<div class="Vimeo"><div class="title">' + $(this).find("title").text() + '<div class="title">' + $(this).find("description").text() +'</div>'+ '<div class="pic">' + $(this).find("enclourse:url").text() +'</div>'+'<br /></div></div>');
 //
 //  });
-    
-  class ContentObject{
-    constructor(title, source, img, url){
-      this.title = title; //String article title
-      this.source = source; //String source website
-      this.img = img; //String image url
-      this.url = url; //String article url
-    }
-  };
+
 
   var demo1 = new ContentObject(
-    title="Morrissey Announces Pop-Up Shop at Brooklyn Dog Rescue", 
-    source="Pitchfork", 
+    title="Morrissey Announces Pop-Up Shop at Brooklyn Dog Rescue",
+    source="Pitchfork",
     img="http://cdn3.pitchfork.com/news/68245/82537873.png",
     url="http://pitchfork.com/news/68245-morrissey-announces-pop-up-shop-at-brooklyn-dog-rescue/"
   );
@@ -133,8 +132,8 @@ $(document).ready(function () {
     url= "http://www.espn.com/nfl/insider/story/_/page/32for32x160913/2016-nfl-week-1-buy-sell-fantasy-performances-all-32-teams/"
   );
 
-  var demos = [demo1, demo2, demo3, demo4, demo5, demo6, demo7];
-    
+
+
   populateContent(demos);
-    
+
 });
