@@ -37,16 +37,18 @@ class ContentObject{
  $(xml).find("item").each(function () {
 
       var demo = new ContentObject();
-      demo.title= $(this).find("description").text();
+      demo.title= htmlDecode($(this).find("description").text());
       demo.source="ESPN";
-      demo.url=$(this).find("link").text();
+      demo.url= $(this).find("link").text();
 
              $.ajax({
                 url: demo.url,
                 success: function(data) {
                   var imger = $(data).find("picture:first").find("source:first").attr("srcset");
-                  demo.img = imger;
-                  espn_content.push(demo);
+                  if(imger){
+                    demo.img = imger;
+                    espn_content.push(demo);
+                  }
                   if(espn_content.length > 7){
                       populateContent(espn_content);
                   }
@@ -55,6 +57,11 @@ class ContentObject{
 
   });
  }
+    function htmlDecode(input){
+  var e = document.createElement('div');
+  e.innerHTML = input;
+  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+}
 //
 //  //VIMEO
 //  function xmlParserVimeo(xml) {
