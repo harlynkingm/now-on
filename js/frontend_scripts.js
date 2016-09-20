@@ -13,7 +13,8 @@ jQuery(document).ready(function(){
 		var hours = d.getHours()%12 < 10 ? "0" + d.getHours()%12 : d.getHours()%12;
 		var minutes = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
 		var seconds = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
-		var timeStr = hours + " " + minutes + " " + seconds;
+//		var timeStr = hours + " " + minutes + " " + seconds;
+        var timeStr = hours + " " + minutes;
 		$("#time-block").html(timeStr);
 	}
 	
