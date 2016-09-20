@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NowOn - Personal News Filter</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <script src="js/jquery-3.1.0.min.js"></script>
+  <script src="js/frontend_scripts.js"></script>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body class="bg-blue-dark noselect">
+  <div class="center-box">
+    <div class="container">
+      
+      <!-- HEADER -->
+      <div class="row header-content" style="margin-bottom:14px">
+        <div class="half-row">
+          <span id="time-block">00 00 00</span>
+          <span id="date-block">Weekday, Month Day</span>
+        </div>
+		<div class="half-row">
+		  <div class="four columns weather-block" id="weather-block-2">
+			  <div class="row space-bottom">
+				  <img src="images/weather/cloudy1.png" class="weather-icon half-opac" id="weather-img">
+			  </div>
+			  <div class="row temps space-bottom">
+				  <span id="temp-high" class="half-opac">77</span>
+				  <span id="temp-low" class="quarter-opac">56</span>
+			  </div>
+			  <div class="row">
+				  <span class="temp-date half-opac">TOMORROW</span>
+			  </div>
+		  </div>
+		  <div class="four columns weather-block" id="weather-block-1">
+			  <div class="row space-bottom">
+				  <img src="images/weather/fair.png" class="weather-icon" id="weather-img">
+			  </div>
+			  <div class="row temps space-bottom">
+				  <span id="temp-high">81</span>
+				  <span id="temp-low" class="half-opac">54</span>
+			  </div>
+			  <div class="row">
+				  <span class="temp-date">TODAY</span>
+			  </div>
+		  </div>
+		</div>
+      </div>
+      
+      <!-- MAIN CONTENT -->
+	  <div class="main-content">
+        <div class="row top-row">
+          <div class="half-row" id="content">
+            <a href="http://pitchfork.com/news/68245-morrissey-announces-pop-up-shop-at-brooklyn-dog-rescue/" target="_blank">
+            <div class="content-block" style="margin-right:10px" data-img="http://cdn3.pitchfork.com/news/68245/82537873.png">
+              <div class="inner-block">
+                <span class="inner-news-title">Morrissey Announces Pop-Up Shop at Brooklyn Dog Rescue
+                  <p class="inner-news-src">Pitchfork</p>
+                </span>
+              </div>
+            </div>
+            </a>
+          </div>
+          <div class="half-row">
+            <div class="half-row" id="content">
+              <a href="http://www.nytimes.com/2016/09/12/arts/television/stranger-things-the-great-british-baking-show-what-to-watch.html" target="_blank">
+              <div class="content-block" style="margin-right:10px;margin-left:10px" data-img="https://static01.nyt.com/images/2016/09/12/watching/12watching1/12watching1-master675.jpg">
+                <div class="inner-block">
+                  <span class="inner-news-title title-side">BEST SHOWS FROM THE SUMMER YOU MAY HAVE MISSED
+                    <p class="inner-news-src">New York Times</p>
+                  </span>
+                </div>
+              </div>
+              </a>
+            </div>
+            <div class="half-row" id="content">
+              <a href="http://www.nytimes.com/2016/09/18/movies/emily-blunt-the-girl-on-the-train.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=mini-moth&region=top-stories-below&WT.nav=top-stories-below" target="_blank">
+              <div class="content-block" style="margin-left:10px" data-img="https://static01.nyt.com/images/2016/09/18/arts/18EMILYBLUNT1SUB/18EMILYBLUNT1SUB-master768.jpg">
+                <div class="inner-block">
+                  <span class="inner-news-title title-side">An Embattled Emily Blunt in ‘The Girl on the Train’
+                    <p class="inner-news-src">New York Times</p>
+                  </span>
+                </div>
+              </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="row bottom-row" style="margin-top:20px">
+          <div class="half-row">
+            <div class="half-row" id="content">
+              <a href="https://www.buzzfeed.com/andrewkaczynski/colin-powell-calls-trump-national-disgrace-in-personal-email" target="_blank">
+              <div style="margin-right: 10px">
+                <div class="content-block" data-img="https://img.buzzfeed.com/buzzfeed-static/static/2016-09/13/20/campaign_images/buzzfeed-prod-fastlane01/colin-powell-calls-trump-a-national-disgrace-in-p-2-19118-1473811245-13_big.jpg">
+                  <div class="inner-block"></div>
+                </div>
+                <span class="news-content-src">Buzzfeed</span>
+                <span class="news-title">Colin Powell Calls Trump A “National Disgrace” In Personal Emails</span>
+              </div>
+              </a>
+            </div>
+            <div class="half-row" id="content">
+              <a href="http://www.avclub.com/article/ava-duvernays-wrinkle-time-casts-its-lead-242568" target="_blank">
+              <div style="margin-right: 10px;margin-left:10px">
+                <div class="content-block" data-img="http://i.onionstatic.com/avclub/5968/18/16x9/640.jpg">
+                  <div class="inner-block"></div>
+                </div>
+                <span class="news-content-src">AV Club</span>
+                <span class="news-title">Ava DuVernay’s 'A Wrinkle In Time' casts its lead</span>
+              </div>
+              </a>
+            </div>
+          </div>
+          <div class="half-row">
+            <div class="half-row" id="content">
+              <a href="http://www.theonion.com/infographic/how-animals-go-extinct-53939" target="_blank">
+              <div style="margin-right: 10px;margin-left:10px">
+                <div class="content-block" data-img="http://i.onionstatic.com/onion/5442/1/16x9/700.jpg">
+                  <div class="inner-block"></div>
+                </div>
+                <span class="news-content-src">The Onion</span>
+                <span class="news-title">How Animals Go Extinct</span>
+              </div>
+              </a>
+            </div>
+            <div class="half-row">
+              <a href="http://www.espn.com/nfl/insider/story/_/page/32for32x160913/2016-nfl-week-1-buy-sell-fantasy-performances-all-32-teams" target="_blank">
+              <div style="margin-left:10px">
+                <div class="content-block" data-img="http://a.espncdn.com/combiner/i?img=%2Fphoto%2F2016%2F0911%2Fr124795_1296x729_16%2D9.jpg">
+                  <div class="inner-block"></div>
+                </div>
+                <span class="news-content-src">ESPN</span>
+                <span class="news-title">Buy or sell? Week 1 fantasy performances for all 32 teams</span>
+              </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
