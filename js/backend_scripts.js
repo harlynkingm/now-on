@@ -44,13 +44,14 @@ class ContentObject{
              $.ajax({
                 url: demo.url,
                 success: function(data) {
-                var imger = $(data).find("picture:first").find("source:first").attr("srcset");
-                demo.img = imger;
-                espn_content.push(demo);
+                  var imger = $(data).find("picture:first").find("source:first").attr("srcset");
+                  demo.img = imger;
+                  espn_content.push(demo);
+                  if(espn_content.length > 7){
+                      populateContent(espn_content);
+                  }
                 }
              });
-
-    demos.push(demo);
 
   });
  }
@@ -132,8 +133,5 @@ class ContentObject{
     url= "http://www.espn.com/nfl/insider/story/_/page/32for32x160913/2016-nfl-week-1-buy-sell-fantasy-performances-all-32-teams/"
   );
 
-
-
-  populateContent(demos);
 
 });
