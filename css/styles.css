@@ -37,17 +37,28 @@ a{
   display: block;
 }
 
-.settings-button{
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  width: 35px;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-  cursor:pointer;
+.settings{
+  left: 20px;
 }
 
-.settings-button:hover{
+.refresh{
+  right: 20px;
+}
+
+.back{
+  left: 20px;
+}
+
+.outer-button{
+  position: fixed;
+  cursor: pointer;
+  top: 20px;
+  width: 32px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.outer-button:hover{
   opacity: 0.8;
 }
 
@@ -160,6 +171,21 @@ a{
 	font-size: 24px;
 }
 
+.color-selector{
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  border: #fff solid 5px;
+  float: left;
+  margin: 20px;
+  cursor: pointer;
+  transition: transform 0.4s;
+}
+
+.color-selector:hover{
+  transform: scale(0.9);
+}
+
 .bg-blue-light{
   background-color: #4A6ED0;
 }
@@ -176,6 +202,26 @@ a{
   background-color: #D50606;
 }
 
+.bg-green{
+  background-color: #4AA741;
+}
+
+.bg-purple{
+  background-color: #783EB9;
+}
+
+.bg-pink{
+  background-color: #C13973;
+}
+
+.bg-orange{
+  background-color: #EC7F33;
+}
+
+.bg-default{
+  background-color: #020F29;
+}
+
 .noselect {
   cursor: default;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -185,4 +231,9 @@ a{
   -ms-user-select: none;       /* Internet Explorer/Edge */
   user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+
+.hidden{
+  display: none;
+  height: 0;
 }

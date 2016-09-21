@@ -1,14 +1,15 @@
 $(document).ready(function () {
-//push all content to demos array then pick a random 7
-var demos = [];
-class ContentObject{
-  constructor(title, source, img, url){
-    this.title = title; //String article title
-    this.source = source; //String source website
-    this.img = img; //String image url
-    this.url = url; //String article url
-  }
-};
+  //push all content to demos array then pick a random 7
+  var demos = [];
+  class ContentObject{
+    constructor(title, source, img, url){
+      this.title = title; //String article title
+      this.source = source; //String source website
+      this.img = img; //String image url
+      this.url = url; //String article url
+    }
+  };
+
  $.ajax({
      type: "GET",
      url: "http://www.espn.com/espn/rss/news",
@@ -16,12 +17,7 @@ class ContentObject{
      success: xmlParser
     });
   $.ajax({
-
-  // The 'type' property sets the HTTP method.
-  // A value of 'PUT' or 'DELETE' will trigger a preflight request.
   type: 'GET',
-
-  // The URL to make the request to.
   url: 'http://pitchfork.com/rss/news/',
 
   // The 'contentType' property sets the 'Content-Type' header.
@@ -62,35 +58,34 @@ class ContentObject{
 
  function xmlParser(xml) {
 
- var espn_content = [];
+   var espn_content = [];
 
- $(xml).find("item").each(function () {
+   $(xml).find("item").each(function () {
 
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("description").text());
       demo.source="ESPN";
       demo.url= $(this).find("link").text();
-
-             $.ajax({
-                url: demo.url,
-                success: function(data) {
-                  var imger = $(data).find("picture:first").find("source:first").attr("srcset");
-                  if(imger){
-                    demo.img = imger;
-                    espn_content.push(demo);
-                  }
-                  if(espn_content.length > 7){
-                      populateContent(espn_content);
-                  }
-                }
-             });
-
+     
+      $.ajax({
+        url: demo.url,
+        success: function(data) {
+          var imger = $(data).find("picture:first").find("source:first").attr("srcset");
+          if(imger){
+            demo.img = imger;
+            espn_content.push(demo);
+          }
+          if(espn_content.length > 7){
+              populateContent(espn_content);
+          }
+        }
+      });
   });
- }
-function htmlDecode(input){
-  var e = document.createElement('div');
-  e.innerHTML = input;
-  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 }
+  function htmlDecode(input){
+    var e = document.createElement('div');
+    e.innerHTML = input;
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+  }
     
 });

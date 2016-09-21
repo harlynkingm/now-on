@@ -4,6 +4,8 @@ $(document).ready(function(){
 	
 	updateTime();
 	updateDay();
+    getColor();
+    setDefaults();
 	
 	setInterval(function(){
 		updateTime();
@@ -43,5 +45,76 @@ $(document).ready(function(){
     $(block).find(".inner-news-src").text(content.source);
     $(block).find(".news-content-src").text(content.source);
   }
+  
+  function storeData(key, val){
+    var obj = {};
+    obj[key] = val;
+    chrome.storage.sync.set(obj, function(){
+      console.log("Settings saved!");
+    });
+  }
+  
+  function getData(key, callback){
+    chrome.storage.sync.get(key, function(data){
+      callback(data[key]);
+    });
+  }
+  
+  function saveColor(color){
+    storeData('color', color);
+  }
+  
+  function getColor(){
+    getData('color', setColor);
+  }
+  
+  function setColor(color){
+    if (color){
+      $(".bg-default").css("background-color", color);
+    } else {
+      saveColor("#020F29");
+    }
+  }
+  
+  $(".color-selector").hover(function(){
+    var color = $(this).css("background-color");
+    $(".bg-default").css("transition", "background-color 0.5s");
+    setColor(color);
+  });
+  
+  $(".color-selector").mouseleave(function(){
+    var color = $(this).css("background-color");
+    saveColor(color);
+  });
+  
+//  $(".color-selector").click(function(){
+//    var color = $(this).css("background-color");
+//    saveColor(color);
+//    $(".bg-default").css("transition", "background-color 0.5s");
+//    setColor(color);
+//  });
+  
+  function setDefaults(){
+    $(".settings-container").hide();
+    $(".back").hide();
+  }
+  
+  $(".settings").click(function(){
+    $(".settings").fadeOut(200);
+    $(".refresh").fadeOut(200);
+    $(".main-container").fadeOut(200, function(){
+      $(".settings-container").fadeIn(200);
+      $(".back").fadeIn(200);
+    });
+  });
+  
+  $(".back").click(function(){
+      $(".back").fadeOut(200);
+      $(".settings-container").fadeOut(200, function(){
+        $(".settings").fadeIn(200);
+        $(".refresh").fadeIn(200);
+        $(".main-container").fadeIn(200);
+      });
+  });
 	
 });
