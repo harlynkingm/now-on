@@ -186,8 +186,8 @@ a{
   transform: scale(0.9);
 }
 
-.bg-blue-light{
-  background-color: #4A6ED0;
+.bg-teal{
+  background-color: #042B29;
 }
 
 .bg-blue-dark{
@@ -195,7 +195,7 @@ a{
 }
 
 .bg-red-dark{
-  background-color: #501010;
+  background-color: #4A0720;
 }
 
 .bg-red-light{
@@ -203,19 +203,19 @@ a{
 }
 
 .bg-green{
-  background-color: #4AA741;
+  background-color: #0F1B03;
 }
 
 .bg-purple{
-  background-color: #783EB9;
+  background-color: #230A3A ;
 }
 
 .bg-pink{
-  background-color: #C13973;
+  background-color: #872750;
 }
 
 .bg-orange{
-  background-color: #EC7F33;
+  background-color: #B15219;
 }
 
 .bg-default{
