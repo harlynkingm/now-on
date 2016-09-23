@@ -50,7 +50,7 @@ $(document).ready(function(){
     var obj = {};
     obj[key] = val;
     chrome.storage.sync.set(obj, function(){
-      console.log("Settings saved!");
+//      console.log("Settings saved!");
     });
   }
   
