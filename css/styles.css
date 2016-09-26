@@ -192,8 +192,8 @@ a{
 
 .news-option{
   margin: 20px;
-  width: 12vw;
-  height: 12vw;
+  width: 15vh;
+  height: 15vh;
   display: inline-block;
   position: relative;
   padding: 8px;
@@ -205,7 +205,7 @@ a{
   border: 3px solid white;
 }
 
-.news-option .active{
+.news-option-active{
   border: 3px solid white;
 }
 

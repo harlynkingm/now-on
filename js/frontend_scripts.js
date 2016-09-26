@@ -144,16 +144,16 @@ $(document).ready(function(){
   $(".arrow-left").click(function(){
     startIndex -= 8;
     startIndex = Math.max(0, startIndex);
-    setPictures(startIndex);
+    setPictures(startIndex%sources.length);
   });
   
   $(".arrow-right").click(function(){
     startIndex += 8;
-    setPictures(startIndex);
+    setPictures(startIndex%sources.length);
   });
   
   $(".news-option").click(function(){
-    if ($(".news-option").hasClass("active")){
+    if ($(this).hasClass("news-option-active")){
       removeSource($(this).attr("id"));
     } else {
       addSource($(this).attr("id"));
@@ -183,9 +183,9 @@ $(document).ready(function(){
       localSources = data;
       $(".news-option").each(function(i, obj){
         if (data.includes($(obj).attr("id"))){
-          $(obj).addClass("active");
+          $(obj).addClass("news-option-active");
         } else {
-          $(obj).removeClass("active");
+          $(obj).removeClass("news-option-active");
         }
       });
     } else {
@@ -200,7 +200,7 @@ $(document).ready(function(){
   }
   
   function removeSource(source){
-    localSources = localSources.splice(localSources.indexOf(source), 1);
+    localSources.splice(localSources.indexOf(source), 1);
     storeData('sources', localSources, getActiveSources);
   }
 	
