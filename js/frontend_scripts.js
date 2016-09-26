@@ -1,11 +1,32 @@
 var populateContent;
 
+class Source{
+  constructor(title, image){
+    this.title = title; //String source title
+    this.image = image; //String local image
+  }
+};
+
+var sources = [
+  new Source('espn', "images/logos/espn.png"),
+  new Source('onion', "images/logos/onion.png"),
+  new Source('pitchfork', "images/logos/pitchfork.png"),
+  new Source('new-york-times', "images/logos/nyt.png"),
+  new Source('washington-post', "images/logos/washingtonpost.jpg"),
+  new Source('ap', "images/logos/ap.png"),
+  new Source('business-insider', "images/logos/businessinsider.png"),
+  new Source('buzzfeed', "images/logos/buzzfeed.png")
+];
+
 $(document).ready(function(){
 	
+    var localSources = []; // Local version for updating
 	updateTime();
 	updateDay();
     getColor();
     setDefaults();
+    var startIndex = 0;
+    setPictures(startIndex);
 	
 	setInterval(function(){
 		updateTime();
@@ -46,11 +67,14 @@ $(document).ready(function(){
     $(block).find(".news-content-src").text(content.source);
   }
   
-  function storeData(key, val){
+  function storeData(key, val, callback){
     var obj = {};
     obj[key] = val;
     chrome.storage.sync.set(obj, function(){
-//      console.log("Settings saved!");
+//      console.log("SAVED");
+      if (callback){
+        callback();
+      }
     });
   }
   
@@ -116,5 +140,68 @@ $(document).ready(function(){
         $(".main-container").fadeIn(200);
       });
   });
+  
+  $(".arrow-left").click(function(){
+    startIndex -= 8;
+    startIndex = Math.max(0, startIndex);
+    setPictures(startIndex);
+  });
+  
+  $(".arrow-right").click(function(){
+    startIndex += 8;
+    setPictures(startIndex);
+  });
+  
+  $(".news-option").click(function(){
+    if ($(".news-option").hasClass("active")){
+      removeSource($(this).attr("id"));
+    } else {
+      addSource($(this).attr("id"));
+    }
+  });
+  
+  function setPictures(startIndex){
+    var pics = [];
+    for (var i = startIndex; i < startIndex + 9; i++){
+      if (i < sources.length){
+        pics.push(sources[i % 8]);
+      }
+    }
+    $(".news-option").each(function(i, obj){
+      $(obj).find("img").attr("src", pics[i].image);
+      $(obj).attr("id", pics[i].title);
+    });
+    getActiveSources();
+  };
+  
+  function getActiveSources(){
+    getData('sources', setActiveSources);
+  }
+  
+  function setActiveSources(data){
+    if (data){
+      localSources = data;
+      $(".news-option").each(function(i, obj){
+        if (data.includes($(obj).attr("id"))){
+          $(obj).addClass("active");
+        } else {
+          $(obj).removeClass("active");
+        }
+      });
+    } else {
+      localSources = ['espn']; // DEFAULT
+      storeData('sources', localSources, getActiveSources);
+    }
+  }
+  
+  function addSource(source){
+    localSources.push(source);
+    storeData('sources', localSources, getActiveSources);
+  }
+  
+  function removeSource(source){
+    localSources = localSources.splice(localSources.indexOf(source), 1);
+    storeData('sources', localSources, getActiveSources);
+  }
 	
 });

@@ -1,6 +1,7 @@
 $(document).ready(function () {
   //push all content to demos array then pick a random 7
   var demos = [];
+  
   class ContentObject{
     constructor(title, source, img, url){
       this.title = title; //String article title
