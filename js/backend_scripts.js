@@ -1,5 +1,6 @@
 $(document).ready(function () {
   //push all content to demos array then pick a random 7
+  //check boxes equal to sources then display (list of whats checked and check for each content if source is in that array)
   var demos = [];
   class ContentObject{
     constructor(title, source, img, url){
@@ -15,6 +16,30 @@ $(document).ready(function () {
      url: "http://www.espn.com/espn/rss/news",
      dataType: "xml",
      success: xmlParser
+    });
+     $.ajax({
+     type: "GET",
+     url: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+     dataType: "xml",
+     success: xmlParserNYT
+    });
+     $.ajax({
+     type: "GET",
+     url: "https://www.buzzfeed.com/index.xml",
+     dataType: "xml",
+     success: xmlParserBuzzfeed
+    });
+    $.ajax({
+     type: "GET",
+     url: "https://www.buzzfeed.com/index.xml",
+     dataType: "xml",
+     success: xmlParserBuzzfeed
+    });
+    $.ajax({
+     type: "GET",
+     url: "http://feeds.abcnews.com/abcnews/topstories",
+     dataType: "xml",
+     success: xmlParserABC
     });
   $.ajax({
   type: 'GET',
@@ -44,7 +69,25 @@ $(document).ready(function () {
   },
 
   success: function(data) {
-    console.log(data);
+    var pitchfork = [];
+      console.log(data);
+    $(data).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      if(demo.title.length > 55){
+          demo.title = demo.title.substring(0,55) + "...";
+      }
+      demo.source="PitchFork";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find("enclosure").attr("url");
+      pitchfork.push(demo);
+    });
+      if(pitchfork.length > 7){
+         demos.push(pitchfork); 
+      }
+      if(demos.length == 5 ){
+        populateContentList(demos);
+       }
   },
 
   error: function() {
@@ -54,6 +97,75 @@ $(document).ready(function () {
     // information about the error.
   }
 });
+    
+function xmlParserNYT(xml){
+    var nyt = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      if(demo.title.length > 55){
+          demo.title = demo.title.substring(0,55) + "...";
+      }
+      demo.source="New York Times";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find('media\\:content, content').attr('url');
+      if(demo.img){
+        nyt.push(demo);
+      }
+    });
+      if(nyt.length > 7){
+         demos.push(nyt); 
+      }
+      if(demos.length == 5 ){
+        populateContentList(demos);
+       }
+}
+    
+function xmlParserABC(xml){
+    var abc = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      if(demo.title.length > 55){
+          demo.title = demo.title.substring(0,55) + "...";
+      }
+      demo.source="ABC News";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find('media\\:thumbnail, thumbnail').attr('url');
+      if(demo.img){
+        abc.push(demo);
+      }
+    });
+      if(abc.length > 7){
+         demos.push(abc); 
+      }
+      if(demos.length == 5 ){
+        populateContentList(demos);
+       }
+}
+    
+function xmlParserBuzzfeed(xml){
+    var buzzfeed = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      if(demo.title.length > 55){
+          demo.title = demo.title.substring(0,55) + "...";
+      }
+      demo.source="Buzzfeed";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find('media\\:content, content').attr('url');
+      if(demo.img){
+        buzzfeed.push(demo);
+      }
+    });
+      if(buzzfeed.length > 7){
+         demos.push(buzzfeed); 
+      }
+      if(demos.length == 5 ){
+        populateContentList(demos);
+       }
+}
 
 
  function xmlParser(xml) {
@@ -64,6 +176,9 @@ $(document).ready(function () {
 
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("description").text());
+      if(demo.title.length > 55){
+          demo.title = demo.title.substring(0,55) + "...";
+      }
       demo.source="ESPN";
       demo.url= $(this).find("link").text();
      
@@ -75,11 +190,16 @@ $(document).ready(function () {
             demo.img = imger;
             espn_content.push(demo);
           }
-          if(espn_content.length > 7){
-              populateContent(espn_content);
+          if(espn_content.length > 5){
+              demos.push(espn_content);
+                           
+          }
+          if(demos.length == 5 ){
+              populateContentList(demos);
           }
         }
       });
+       
   });
 }
   function htmlDecode(input){
@@ -87,5 +207,20 @@ $(document).ready(function () {
     e.innerHTML = input;
     return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   }
+    
+   function populateContentList(demos){
+       var final_array = [];
+
+       while(final_array.length<7){
+           var rand_site = Math.floor(Math.random() * demos.length);
+           var rand_content = Math.floor(Math.random() * demos[rand_site].length);
+           console.log(demos[rand_site][rand_content]);
+           final_array.push(demos[rand_site][rand_content]);
+           //remove content so not showed twice
+           demos[rand_site].splice(rand_content, 1);
+       }
+       populateContent(final_array)
+       
+   }
     
 });

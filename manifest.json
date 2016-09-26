@@ -13,7 +13,7 @@
     "newtab": "index.html"
   },
   "permissions": [
-    "storage", "http://pitchfork.com/rss/news/"
+    "storage", "http://pitchfork.com/rss/news/", "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", "https://www.buzzfeed.com/index.xml", "http://feeds.abcnews.com/abcnews/topstories"
   ],
   "manifest_version": 2
 }
