@@ -246,12 +246,12 @@ a{
   transform: rotate(180deg);
 }
 
-.bg-teal{
-  background-color: #042B29;
-}
-
 .bg-blue-dark{
   background-color: #020F29;
+}
+
+.bg-teal{
+  background-color: #0F291E;
 }
 
 .bg-red-dark{
@@ -259,7 +259,7 @@ a{
 }
 
 .bg-red-light{
-  background-color: #D50606;
+  background-color: #820816;
 }
 
 .bg-green{
@@ -267,15 +267,15 @@ a{
 }
 
 .bg-purple{
-  background-color: #230A3A ;
+  background-color: #300e50 ;
 }
 
 .bg-pink{
-  background-color: #872750;
+  background-color: #56003a;
 }
 
-.bg-orange{
-  background-color: #B15219;
+.bg-black{
+  background-color: #000000;
 }
 
 .bg-default{
