@@ -140,6 +140,10 @@ $(document).ready(function(){
         $(".main-container").fadeIn(200);
       });
   });
+    
+  $(".refresh").click(function(){
+      loadContent();
+  });
   
   $(".arrow-left").click(function(){
     startIndex -= 8;

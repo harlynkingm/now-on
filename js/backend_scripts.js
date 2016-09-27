@@ -1,8 +1,10 @@
+var loadContent;
 $(document).ready(function () {
   //push all content to demos array then pick a random 7
   //check boxes equal to sources then display (list of whats checked and check for each content if source is in that array)
   var demos = [];
-  
+  var dataLength = 0;
+  getData('sources', loadContent);
   class ContentObject{
     constructor(title, source, img, url){
       this.title = title; //String article title
@@ -12,72 +14,78 @@ $(document).ready(function () {
     }
   };
 
+loadContent = function(data){
+dataLength = data.length;
+if(data.includes("espn")){
  $.ajax({
      type: "GET",
      url: "http://www.espn.com/espn/rss/news",
      dataType: "xml",
-     success: xmlParser
+     success: xmlParserESPN
     });
+}
+if(data.includes("av-club")){
+    $.ajax({
+     type: "GET",
+     url: "http://www.avclub.com/feeds/rss/",
+     dataType: "xml",
+     success: xmlParserAVClub
+    });
+}
+if(data.includes("vox")){
+    $.ajax({
+     type: "GET",
+     url:  "http://www.vox.com/rss/index.xml",
+     dataType: "xml",
+     success: xmlParserVox
+    });
+}
+if(data.includes("ny-times")){
      $.ajax({
      type: "GET",
      url: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
      dataType: "xml",
      success: xmlParserNYT
     });
+}
+if(data.includes("complex")){
      $.ajax({
      type: "GET",
-     url: "https://www.buzzfeed.com/index.xml",
+     url: "http://assets.complex.com/feeds/channels/all.xml",
      dataType: "xml",
-     success: xmlParserBuzzfeed
+     success: xmlParserComplex
     });
+}
+if(data.includes("buzzfeed")){
     $.ajax({
      type: "GET",
      url: "https://www.buzzfeed.com/index.xml",
      dataType: "xml",
      success: xmlParserBuzzfeed
     });
+}
+if(data.includes("abc-news")){
     $.ajax({
      type: "GET",
      url: "http://feeds.abcnews.com/abcnews/topstories",
      dataType: "xml",
      success: xmlParserABC
     });
-  $.ajax({
-  type: 'GET',
-  url: 'http://pitchfork.com/rss/news/',
-
-  // The 'contentType' property sets the 'Content-Type' header.
-  // The JQuery default for this property is
-  // 'application/x-www-form-urlencoded; charset=UTF-8', which does not trigger
-  // a preflight. If you set this value to anything other than
-  // application/x-www-form-urlencoded, multipart/form-data, or text/plain,
-  // you will trigger a preflight request.
-  contentType: 'text/plain',
-
-  xhrFields: {
-    // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-    // This can be used to set the 'withCredentials' property.
-    // Set the value to 'true' if you'd like to pass cookies to the server.
-    // If this is enabled, your server must respond with the header
-    // 'Access-Control-Allow-Credentials: true'.
-    withCredentials: false
-  },
-
-  headers: {
-    // Set any custom headers here.
-    // If you set any non-simple headers, your server must include these
-    // headers in the 'Access-Control-Allow-Headers' response header.
-  },
-
-  success: function(data) {
+}
+if(data.includes("pitchfork")){
+    $.ajax({
+     type: "GET",
+     url: 'http://pitchfork.com/rss/news/',
+     dataType: "xml",
+     success: xmlParserPitchfork
+    });
+}
+}
+function xmlParserPitchfork(xml){
     var pitchfork = [];
-      console.log(data);
-    $(data).find("item").each(function () {
+    $(xml).find("item").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
-      if(demo.title.length > 55){
-          demo.title = demo.title.substring(0,55) + "...";
-      }
       demo.source="PitchFork";
       demo.url= $(this).find("link").text();
       demo.img = $(this).find("enclosure").attr("url");
@@ -86,27 +94,15 @@ $(document).ready(function () {
       if(pitchfork.length > 7){
          demos.push(pitchfork); 
       }
-      if(demos.length == 5 ){
+      if(demos.length == dataLength ){
         populateContentList(demos);
        }
-  },
-
-  error: function() {
-    // Here's where you handle an error response.
-    // Note that if the error was due to a CORS issue,
-    // this function will still fire, but there won't be any additional
-    // information about the error.
-  }
-});
-    
+}
 function xmlParserNYT(xml){
     var nyt = [];
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
-      if(demo.title.length > 55){
-          demo.title = demo.title.substring(0,55) + "...";
-      }
       demo.source="New York Times";
       demo.url= $(this).find("link").text();
       demo.img = $(this).find('media\\:content, content').attr('url');
@@ -117,7 +113,7 @@ function xmlParserNYT(xml){
       if(nyt.length > 7){
          demos.push(nyt); 
       }
-      if(demos.length == 5 ){
+      if(demos.length == dataLength ){
         populateContentList(demos);
        }
 }
@@ -127,9 +123,6 @@ function xmlParserABC(xml){
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
-      if(demo.title.length > 55){
-          demo.title = demo.title.substring(0,55) + "...";
-      }
       demo.source="ABC News";
       demo.url= $(this).find("link").text();
       demo.img = $(this).find('media\\:thumbnail, thumbnail').attr('url');
@@ -140,7 +133,7 @@ function xmlParserABC(xml){
       if(abc.length > 7){
          demos.push(abc); 
       }
-      if(demos.length == 5 ){
+      if(demos.length == dataLength ){
         populateContentList(demos);
        }
 }
@@ -150,9 +143,6 @@ function xmlParserBuzzfeed(xml){
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
-      if(demo.title.length > 55){
-          demo.title = demo.title.substring(0,55) + "...";
-      }
       demo.source="Buzzfeed";
       demo.url= $(this).find("link").text();
       demo.img = $(this).find('media\\:content, content').attr('url');
@@ -163,13 +153,33 @@ function xmlParserBuzzfeed(xml){
       if(buzzfeed.length > 7){
          demos.push(buzzfeed); 
       }
-      if(demos.length == 5 ){
+      if(demos.length == dataLength ){
+        populateContentList(demos);
+       }
+}
+    
+function xmlParserComplex(xml){
+    var complex = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      demo.source="Complex";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find("enclosure").attr("url");
+      if(demo.img){
+        complex.push(demo);
+      }
+    });
+      if(complex.length > 7){
+         demos.push(complex); 
+      }
+      if(demos.length == dataLength ){
         populateContentList(demos);
        }
 }
 
 
- function xmlParser(xml) {
+ function xmlParserESPN(xml) {
 
    var espn_content = [];
 
@@ -177,9 +187,6 @@ function xmlParserBuzzfeed(xml){
 
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("description").text());
-      if(demo.title.length > 55){
-          demo.title = demo.title.substring(0,55) + "...";
-      }
       demo.source="ESPN";
       demo.url= $(this).find("link").text();
      
@@ -195,7 +202,7 @@ function xmlParserBuzzfeed(xml){
               demos.push(espn_content);
                            
           }
-          if(demos.length == 5 ){
+          if(demos.length == dataLength ){
               populateContentList(demos);
           }
         }
@@ -203,6 +210,46 @@ function xmlParserBuzzfeed(xml){
        
   });
 }
+    
+function xmlParserVox(xml){
+    var vox = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      demo.source="Vox";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find("content").find("img").attr("src");
+      if(demo.img){
+        vox.push(demo);
+      }
+    });
+      if(vox.length > 7){
+         demos.push(vox); 
+      }
+      if(demos.length == dataLength ){
+        populateContentList(demos);
+       }
+}  
+function xmlParserAVClub(xml){
+    var AVClub = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      demo.source="AV Club";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find("description").find("img").attr("src");
+      if(demo.img){
+        AVClub.push(demo);
+      }
+    });
+      if(AVClub.length > 7){
+         demos.push(AVClub); 
+      }
+      if(demos.length == dataLength ){
+        populateContentList(demos);
+       }
+}
+    
   function htmlDecode(input){
     var e = document.createElement('div');
     e.innerHTML = input;
@@ -215,7 +262,6 @@ function xmlParserBuzzfeed(xml){
        while(final_array.length<7){
            var rand_site = Math.floor(Math.random() * demos.length);
            var rand_content = Math.floor(Math.random() * demos[rand_site].length);
-           console.log(demos[rand_site][rand_content]);
            final_array.push(demos[rand_site][rand_content]);
            //remove content so not showed twice
            demos[rand_site].splice(rand_content, 1);

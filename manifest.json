@@ -13,7 +13,14 @@
     "newtab": "index.html"
   },
   "permissions": [
-    "storage", "http://pitchfork.com/rss/news/", "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", "https://www.buzzfeed.com/index.xml", "http://feeds.abcnews.com/abcnews/topstories"
+    "storage", 
+    "http://pitchfork.com/rss/news/", 
+    "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", 
+    "https://www.buzzfeed.com/index.xml", 
+    "http://feeds.abcnews.com/abcnews/topstories", 
+    "http://www.avclub.com/feeds/rss/", 
+    "http://www.vox.com/rss/index.xml",
+    "http://assets.complex.com/feeds/channels/all.xml"
   ],
   "manifest_version": 2
 }
