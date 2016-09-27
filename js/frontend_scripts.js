@@ -1,4 +1,5 @@
 var populateContent;
+var getData;
 
 class Source{
   constructor(title, image){
@@ -9,16 +10,33 @@ class Source{
 
 var sources = [
   new Source('espn', "images/logos/espn.png"),
-  new Source('onion', "images/logos/onion.png"),
+  new Source('av-club', "images/logos/avclub.png"),
   new Source('pitchfork', "images/logos/pitchfork.png"),
   new Source('new-york-times', "images/logos/nyt.png"),
-  new Source('washington-post', "images/logos/washingtonpost.jpg"),
-  new Source('ap', "images/logos/ap.png"),
-  new Source('business-insider', "images/logos/businessinsider.png"),
+  new Source('abc-news', "images/logos/abcnews.png"),
+  new Source('complex', "images/logos/complex.jpg"),
+  new Source('vox', "images/logos/vox.jpg"),
   new Source('buzzfeed', "images/logos/buzzfeed.png")
 ];
 
 $(document).ready(function(){
+  
+    function storeData(key, val, callback){
+      var obj = {};
+      obj[key] = val;
+      chrome.storage.sync.set(obj, function(){
+  //      console.log("SAVED");
+        if (callback){
+          callback();
+        }
+      });
+    }
+
+    getData = function getData(key, callback){
+      chrome.storage.sync.get(key, function(data){
+        callback(data[key]);
+      });
+    }
 	
     var localSources = []; // Local version for updating
 	updateTime();
@@ -53,6 +71,7 @@ $(document).ready(function(){
 	}
   
   populateContent = function populateContent(contentList){
+    $(".main-content").show();
     $(".content").each(function(i, obj){
       setContent(contentList[i], obj);
     });
@@ -63,25 +82,11 @@ $(document).ready(function(){
     $(block).find(".content-block").css('background-image', 'url(' + content.img + ')');
     $(block).find(".inner-news-article").text(content.title);
     $(block).find(".news-title").text(content.title);
+    if (content.title.length > 55){
+      $(block).find(".inner-news-title").addClass("inner-news-title-small");
+    }
     $(block).find(".inner-news-src").text(content.source);
     $(block).find(".news-content-src").text(content.source);
-  }
-  
-  function storeData(key, val, callback){
-    var obj = {};
-    obj[key] = val;
-    chrome.storage.sync.set(obj, function(){
-//      console.log("SAVED");
-      if (callback){
-        callback();
-      }
-    });
-  }
-  
-  function getData(key, callback){
-    chrome.storage.sync.get(key, function(data){
-      callback(data[key]);
-    });
   }
   
   function saveColor(color){
@@ -121,6 +126,7 @@ $(document).ready(function(){
   function setDefaults(){
     $(".settings-container").hide();
     $(".back").hide();
+    $(".main-content").hide();
   }
   
   $(".settings").click(function(){
