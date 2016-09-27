@@ -71,10 +71,15 @@ $(document).ready(function(){
 	}
   
   populateContent = function populateContent(contentList){
-    $(".main-content").show();
-    $(".content").each(function(i, obj){
-      setContent(contentList[i], obj);
-    });
+    console.log(contentList);
+    if (contentList.length > 0){
+      $(".main-content").show();
+      $(".content").each(function(i, obj){
+        setContent(contentList[i], obj);
+      });
+    } else {
+      $(".main-content").hide();
+    }
   }
   
   function setContent(content, block){
@@ -145,10 +150,11 @@ $(document).ready(function(){
         $(".refresh").fadeIn(200);
         $(".main-container").fadeIn(200);
       });
+    loadContent(localSources);
   });
     
   $(".refresh").click(function(){
-      loadContent();
+      loadContent(localSources);
   });
   
   $(".arrow-left").click(function(){

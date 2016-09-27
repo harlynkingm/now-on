@@ -4,7 +4,7 @@ $(document).ready(function () {
   //check boxes equal to sources then display (list of whats checked and check for each content if source is in that array)
   var demos = [];
   var dataLength = 0;
-  getData('sources', loadContent);
+  
   class ContentObject{
     constructor(title, source, img, url){
       this.title = title; //String article title
@@ -14,72 +14,86 @@ $(document).ready(function () {
     }
   };
 
-loadContent = function(data){
-dataLength = data.length;
-if(data.includes("espn")){
- $.ajax({
-     type: "GET",
-     url: "http://www.espn.com/espn/rss/news",
-     dataType: "xml",
-     success: xmlParserESPN
-    });
-}
-if(data.includes("av-club")){
-    $.ajax({
-     type: "GET",
-     url: "http://www.avclub.com/feeds/rss/",
-     dataType: "xml",
-     success: xmlParserAVClub
-    });
-}
-if(data.includes("vox")){
-    $.ajax({
-     type: "GET",
-     url:  "http://www.vox.com/rss/index.xml",
-     dataType: "xml",
-     success: xmlParserVox
-    });
-}
-if(data.includes("ny-times")){
-     $.ajax({
-     type: "GET",
-     url: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-     dataType: "xml",
-     success: xmlParserNYT
-    });
-}
-if(data.includes("complex")){
-     $.ajax({
-     type: "GET",
-     url: "http://assets.complex.com/feeds/channels/all.xml",
-     dataType: "xml",
-     success: xmlParserComplex
-    });
-}
-if(data.includes("buzzfeed")){
-    $.ajax({
-     type: "GET",
-     url: "https://www.buzzfeed.com/index.xml",
-     dataType: "xml",
-     success: xmlParserBuzzfeed
-    });
-}
-if(data.includes("abc-news")){
-    $.ajax({
-     type: "GET",
-     url: "http://feeds.abcnews.com/abcnews/topstories",
-     dataType: "xml",
-     success: xmlParserABC
-    });
-}
-if(data.includes("pitchfork")){
-    $.ajax({
-     type: "GET",
-     url: 'http://pitchfork.com/rss/news/',
-     dataType: "xml",
-     success: xmlParserPitchfork
-    });
-}
+loadContent = function loadContent(data){
+  demos = [];
+  dataLength = data.length;
+//  console.log(data);
+  
+  if(data.includes("espn")){
+   $.ajax({
+       type: "GET",
+       url: "http://www.espn.com/espn/rss/news",
+       dataType: "xml",
+       success: xmlParserESPN
+      });
+  }
+  
+  if(data.includes("av-club")){
+      $.ajax({
+       type: "GET",
+       url: "http://www.avclub.com/feeds/rss/",
+       dataType: "xml",
+       success: xmlParserAVClub
+      });
+  }
+  
+  if(data.includes("vox")){
+      $.ajax({
+       type: "GET",
+       url:  "http://www.vox.com/rss/index.xml",
+       dataType: "xml",
+       success: xmlParserVox
+      });
+  }
+  
+  if(data.includes("new-york-times")){
+       $.ajax({
+       type: "GET",
+       url: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+       dataType: "xml",
+       success: xmlParserNYT
+      });
+  }
+  
+  if(data.includes("complex")){
+       $.ajax({
+       type: "GET",
+       url: "http://assets.complex.com/feeds/channels/all.xml",
+       dataType: "xml",
+       success: xmlParserComplex
+      });
+  }
+  
+  if(data.includes("buzzfeed")){
+      $.ajax({
+       type: "GET",
+       url: "https://www.buzzfeed.com/index.xml",
+       dataType: "xml",
+       success: xmlParserBuzzfeed
+      });
+  }
+  
+  if(data.includes("abc-news")){
+      $.ajax({
+       type: "GET",
+       url: "http://feeds.abcnews.com/abcnews/topstories",
+       dataType: "xml",
+       success: xmlParserABC
+      });
+  }
+  
+  if(data.includes("pitchfork")){
+      $.ajax({
+       type: "GET",
+       url: 'http://pitchfork.com/rss/news/',
+       dataType: "xml",
+       success: xmlParserPitchfork
+      });
+  }
+  if (data.length == 0){
+    populateContent(data);
+  }
+  
 }
 function xmlParserPitchfork(xml){
     var pitchfork = [];
@@ -269,5 +283,7 @@ function xmlParserAVClub(xml){
        populateContent(final_array)
        
    }
+  
+  getData('sources', loadContent);
     
 });
