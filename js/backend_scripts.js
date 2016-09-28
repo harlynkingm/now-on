@@ -12,11 +12,48 @@ $(document).ready(function () {
       this.img = img; //String image url
       this.url = url; //String article url
     }
+      
   };
+
+ function getWeather(){
+  //simple_forcast, high, low for two days and icon name
+  var startPos;
+  var lat;
+  var long;
+  var geoSuccess = function(position) {
+    startPos = position;
+    lat = startPos.coords.latitude;
+    long = startPos.coords.longitude;
+       $.ajax({
+       type: "GET",
+       url: "http://api.wunderground.com/api/dfea5ebf794779cb/forecast/q/"+lat+","+long+".json",
+       dataType: "JSON",
+       success: weatherParser
+      });
+  };
+  navigator.geolocation.getCurrentPosition(geoSuccess);
+ }
+function weatherParser(data){
+  var forecast = data["forecast"]["simpleforecast"]["forecastday"];
+  var today = {};
+  var tomorrow = {};
+  console.log(forecast);
+  today.high = forecast[0]["high"]["fahrenheit"];
+  today.low = forecast[0]["low"]["fahrenheit"];
+  today.icon = forecast[0]["icon"];
+  tomorrow.high = forecast[1]["high"]["fahrenheit"];
+  tomorrow.low = forecast[1]["low"]["fahrenheit"];
+  tomorrow.icon = forecast[1]["icon"];
+  console.log(today);
+  console.log(tomorrow);
+  loadWeather(today,tomorrow)
+}
 
 loadContent = function loadContent(data){
   demos = [];
   dataLength = data.length;
+
+  getWeather();
   
   if(data.includes("espn")){
    $.ajax({
