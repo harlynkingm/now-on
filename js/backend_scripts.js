@@ -12,12 +12,48 @@ $(document).ready(function () {
       this.img = img; //String image url
       this.url = url; //String article url
     }
+      
   };
+
+ function getWeather(){
+  //simple_forcast, high, low for two days and icon name
+  var startPos;
+  var lat;
+  var long;
+  var geoSuccess = function(position) {
+    startPos = position;
+    lat = startPos.coords.latitude;
+    long = startPos.coords.longitude;
+       $.ajax({
+       type: "GET",
+       url: "http://api.wunderground.com/api/dfea5ebf794779cb/forecast/q/"+lat+","+long+".json",
+       dataType: "JSON",
+       success: weatherParser
+      });
+  };
+  navigator.geolocation.getCurrentPosition(geoSuccess);
+ }
+function weatherParser(data){
+  var forecast = data["forecast"]["simpleforecast"]["forecastday"];
+  var today = {};
+  var tomorrow = {};
+  console.log(forecast);
+  today.high = forecast[0]["high"]["fahrenheit"];
+  today.low = forecast[0]["low"]["fahrenheit"];
+  today.icon = forecast[0]["icon"];
+  tomorrow.high = forecast[1]["high"]["fahrenheit"];
+  tomorrow.low = forecast[1]["low"]["fahrenheit"];
+  tomorrow.icon = forecast[1]["icon"];
+  console.log(today);
+  console.log(tomorrow);
+  loadWeather(today,tomorrow)
+}
 
 loadContent = function loadContent(data){
   demos = [];
   dataLength = data.length;
-//  console.log(data);
+
+  getWeather();
   
   if(data.includes("espn")){
    $.ajax({
@@ -246,12 +282,15 @@ function xmlParserComplex(xml){
     
 function xmlParserVox(xml){
     var vox = [];
-    $(xml).find("item").each(function () {
+    $(xml).find("entry").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
       demo.source="Vox";
       demo.url= $(this).find("link").text();
-      demo.img = $(this).find("content").find("img").attr("src");
+      var temp_html = $(this).find("content").text();
+      var div = $("<div></div>");
+      div.html(temp_html);
+      demo.img = div.find("img").attr("src");
       if(demo.img){
         vox.push(demo);
       }
@@ -270,7 +309,10 @@ function xmlParserAVClub(xml){
       demo.title= htmlDecode($(this).find("title").text());
       demo.source="AV Club";
       demo.url= $(this).find("link").text();
-      demo.img = $(this).find("description").find("img").attr("src");
+      var temp_html = $(this).find("description").text();
+      var div = $("<div></div>");
+      div.html(temp_html);
+      demo.img = div.find("img").attr("src");
       if(demo.img){
         AVClub.push(demo);
       }

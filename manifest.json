@@ -14,6 +14,7 @@
   },
   "permissions": [
     "storage", 
+    "geolocation",
     "http://pitchfork.com/rss/news/", 
     "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", 
     "https://www.buzzfeed.com/index.xml", 

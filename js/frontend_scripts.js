@@ -1,5 +1,6 @@
 var populateContent;
 var getData;
+var loadWeather;
 
 class Source{
   constructor(title, image){
@@ -218,6 +219,19 @@ $(document).ready(function(){
   function removeSource(source){
     localSources.splice(localSources.indexOf(source), 1);
     storeData('sources', localSources, getActiveSources);
+  }
+    
+  function clearStorage(){
+      chrome.storage.sync.clear(function(){
+          console.log("ALL CLEAR");
+      });
+  }
+    
+  loadWeather = function loadWeather(today, tomorrow){
+      $("#weather-block-1 #temp-high").text(today.high);
+      $("#weather-block-1 #temp-low").text(today.low);
+      $("#weather-block-2 #temp-high").text(tomorrow.high);
+      $("#weather-block-2 #temp-low").text(tomorrow.low);
   }
 	
 });
