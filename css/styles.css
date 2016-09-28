@@ -204,6 +204,8 @@ a{
   margin: 20px;
   width: 20vh;
   height: 20vh;
+  max-width: 175px;
+  max-height: 175px;
   display: inline-block;
   position: relative;
   padding: 8px;
@@ -305,4 +307,16 @@ a{
 
 .center{
   text-align: center;
+}
+
+@media(max-width: 1200px){
+  .color-selector{
+    width: 45px;
+    height: 45px;
+  }
+  
+  .news-option{
+    width: 15vh;
+    height: 15vh;
+  }
 }
