@@ -49,6 +49,7 @@ $(document).ready(function () {
   }
 
   loadContent = function loadContent(data){
+    hideContent();
     demos = [];
     dataLength = data.length;
 

@@ -1,6 +1,7 @@
 var populateContent;
 var getData;
 var loadWeather;
+var hideContent;
 
 class Source{
   constructor(title, image){
@@ -90,6 +91,7 @@ $(document).ready(function(){
   
   populateContent = function populateContent(contentList){
 //    console.log(contentList);
+    $(".loading").hide();
     if (contentList.length > 0){
       $(".main-content").show();
       $(".content").each(function(i, obj){
@@ -98,6 +100,11 @@ $(document).ready(function(){
     } else {
       $(".main-content").hide();
     }
+  }
+  
+  hideContent = function hideContent(){
+    $(".main-content").hide();
+    $(".loading").show();
   }
   
   function setContent(content, block){

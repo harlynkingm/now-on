@@ -175,6 +175,12 @@ a{
   text-align: center;
 }
 
+.loading{
+  text-align: center;
+  opacity: 0.5;
+  margin-top: 60px;
+}
+
 .color-selector{
   width: 64px;
   height: 64px;
