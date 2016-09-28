@@ -1,13 +1,7 @@
-// To load this extension in Chrome:
-//     1. Click the 'More Tools' section in the Chrome dropdown menu
-//     2. Make sure 'Developer Mode' is checked
-//     3. Click 'Load Unpacked Extension'
-//     4. Locate and load the extension
-
 {
   "name": "NowOn - Personal News Filter",
   "description": "A new way to see the news that matters to you.",
-  "version": "0.2",
+  "version": "0.0.2",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "index.html"
@@ -23,5 +17,8 @@
     "http://www.vox.com/rss/index.xml",
     "http://assets.complex.com/feeds/channels/all.xml"
   ],
-  "manifest_version": 2
+  "manifest_version": 2,
+  "icons":{
+    "128": "images/icon-128.png"
+  }
 }
