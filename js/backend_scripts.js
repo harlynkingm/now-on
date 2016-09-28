@@ -156,6 +156,10 @@ function xmlParserNYT(xml){
       demo.source="New York Times";
       demo.url= $(this).find("link").text();
       img_url = $(this).find('media\\:content, content').attr('url');
+      if (img_url){
+        img_url = img_url.replace(/((moth)(-\w*))\.jpg|(moth)\.jpg/, 'master675.jpg');
+        console.log(img_url);
+      }
       demo.img = img_url;
       if(demo.img){
         nyt.push(demo);
@@ -191,22 +195,36 @@ function xmlParserABC(xml){
     
 function xmlParserBuzzfeed(xml){
     var buzzfeed = [];
+    var bonus = [];
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
       demo.source="Buzzfeed";
       demo.url= $(this).find("link").text();
-      demo.img = $(this).find('media\\:content, content').attr('url');
+      $(this).find('media\\:content, content').each(function(i, obj){
+        var tempImg = $(obj).attr("url");
+        if (tempImg && tempImg.includes("=")){
+          demo.img = tempImg;
+        }
+      });
       if(demo.img){
         buzzfeed.push(demo);
+      } else {
+        demo.img = $(this).find('media\\:content, content').attr("url");
+        bonus.push(demo);
       }
     });
-      if(buzzfeed.length > 7){
-         demos.push(buzzfeed); 
+    if(buzzfeed.length > 7){
+       demos.push(buzzfeed); 
+    } else {
+      while(buzzfeed.length < 7){
+        buzzfeed.push(bonus.pop());
       }
-      if(demos.length == dataLength ){
-        populateContentList(demos);
-       }
+      demos.push(buzzfeed);
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+     }
 }
     
 function xmlParserComplex(xml){
