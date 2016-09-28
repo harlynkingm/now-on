@@ -125,6 +125,152 @@ $(document).ready(function () {
          success: xmlParserPitchfork
         });
     }
+    
+    // UNIMPLEMENTED API'S
+    
+    if(data.includes("onion")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.theonion.com/feeds/rss',
+         dataType: "xml",
+         success: xmlParserOnion
+        });
+    }    
+    
+    if(data.includes("mic")){
+        $.ajax({
+         type: "GET",
+         url: 'https://mic.com/archive',
+         dataType: "xml",
+         success: xmlParserMic
+        });
+    }    
+    
+    if(data.includes("five-thirty-eight")){
+        $.ajax({
+         type: "GET",
+         url: 'http://fivethirtyeight.com/all/feed',
+         dataType: "xml",
+         success: xmlParserFTE
+        });
+    }    
+    
+    if(data.includes("business-insider")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.businessinsider.com/rss',
+         dataType: "xml",
+         success: xmlParserBI
+        });
+    }    
+    
+    if(data.includes("people")){
+        $.ajax({
+         type: "GET",
+         url: 'http://rss.people.com/web/people/rss/topheadlines/index.xml',
+         dataType: "xml",
+         success: xmlParserPeople
+        });
+    }    
+    
+    if(data.includes("associated-press")){
+        $.ajax({
+         type: "GET",
+         url: 'http://hosted.ap.org/lineups/TOPHEADS.rss?SITE=AP&SECTION=HOME',
+         dataType: "xml",
+         success: xmlParserAP
+        });
+    }    
+    
+    if(data.includes("fortune")){
+        $.ajax({
+         type: "GET",
+         url: 'http://fortune.com/feed/',
+         dataType: "xml",
+         success: xmlParserFortune
+        });
+    }    
+    
+    if(data.includes("cosmopolitan")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.cosmopolitan.com/rss/all.xml/',
+         dataType: "xml",
+         success: xmlParserCosmopolitan
+        });
+    }    
+    
+    if(data.includes("chicago-tribune")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.chicagotribune.com/rss2.0.xml',
+         dataType: "xml",
+         success: xmlParserCT
+        });
+    }    
+
+    if(data.includes("fox")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.foxnews.com/foxnews/latest?format=xml',
+         dataType: "xml",
+         success: xmlParserFox
+        });
+    }    
+    
+    if(data.includes("ign")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.ign.com/ign/all?format=xml',
+         dataType: "xml",
+         success: xmlParserIGN
+        });
+    }    
+    
+    if(data.includes("bbc")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.bbci.co.uk/news/rss.xml#',
+         dataType: "xml",
+         success: xmlParserBBC
+        });
+    }    
+    
+    if(data.includes("reuters")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.reuters.com/reuters/topNews?format=xml',
+         dataType: "xml",
+         success: xmlParserReuters
+        });
+    }    
+    
+    if(data.includes("economist")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.economist.com/sections/international/rss.xml',
+         dataType: "xml",
+         success: xmlParserEconomist
+        });
+    }    
+    
+    if(data.includes("wired")){
+        $.ajax({
+         type: "GET",
+         url: 'https://www.wired.com/feed/',
+         dataType: "xml",
+         success: xmlParserWired
+        });
+    }    
+    
+    if(data.includes("ars-technica")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.arstechnica.com/arstechnica/index?format=xml',
+         dataType: "xml",
+         success: xmlParserArsTechnica
+        });
+    }
 
     if (data.length == 0){
       populateContent(data);
@@ -158,9 +304,13 @@ $(document).ready(function () {
       demo.source="New York Times";
       demo.url= $(this).find("link").text();
       img_url = $(this).find('media\\:content, content').attr('url');
+      var original_url = img_url;
       if (img_url){
         img_url = img_url.replace(/((moth)(-\w*))\.jpg|(moth)\.jpg/, 'master675.jpg');
       }
+      $.get(img_url).fail(function() { 
+        demo.img = original_url;
+      })
       demo.img = img_url;
       if(demo.img){
         nyt.push(demo);

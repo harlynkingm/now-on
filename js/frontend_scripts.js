@@ -17,7 +17,23 @@ var sources = [
   new Source('abc-news', "images/logos/abcnews.png"),
   new Source('complex', "images/logos/complex.jpg"),
   new Source('vox', "images/logos/vox.jpg"),
-  new Source('buzzfeed', "images/logos/buzzfeed.png")
+  new Source('buzzfeed', "images/logos/buzzfeed.png"),  
+  new Source('onion', "images/logos/onion.png"),  
+  new Source('mic', "images/logos/mic.jpg"),  
+  new Source('five-thirty-eight', "images/logos/fivethirtyeight.jpg"),  
+  new Source('business-insider', "images/logos/businessinsider.png"),  
+  new Source('people', "images/logos/people.png"),  
+  new Source('associated-press', "images/logos/ap.jpg"),  
+  new Source('fortune', "images/logos/fortune.png"),  
+  new Source('cosmopolitan', "images/logos/cosmopolitan.png"),  
+  new Source('chicago-tribune', "images/logos/chicago-tribune.png"),  
+  new Source('fox', "images/logos/fox.jpg"),  
+  new Source('ign', "images/logos/ign.png"),  
+  new Source('bbc', "images/logos/bbc.png"),  
+  new Source('reuters', "images/logos/reuters.jpg"),  
+  new Source('economist', "images/logos/economist.png"),  
+  new Source('wired', "images/logos/wired.jpg"),  
+  new Source('ars-technica', "images/logos/ars-technica.png")
 ];
 
 $(document).ready(function(){
@@ -44,8 +60,9 @@ $(document).ready(function(){
 	updateDay();
     getColor();
     setDefaults();
-    var startIndex = 0;
-    setPictures(startIndex);
+    var sourcePage = 0;
+    var totalPages = 3;
+    setPictures(sourcePage);
 	
 	setInterval(function(){
 		updateTime();
@@ -166,14 +183,15 @@ $(document).ready(function(){
   });
   
   $(".arrow-left").click(function(){
-    startIndex -= 8;
-    startIndex = Math.max(0, startIndex);
-    setPictures(startIndex%sources.length);
+    sourcePage -= 1;
+    if (sourcePage == -1) sourcePage = totalPages - 1;
+    setPictures(sourcePage);
   });
   
   $(".arrow-right").click(function(){
-    startIndex += 8;
-    setPictures(startIndex%sources.length);
+    sourcePage += 1;
+    sourcePage = sourcePage % totalPages;
+    setPictures(sourcePage);
   });
   
   $(".news-option").click(function(){
@@ -184,11 +202,13 @@ $(document).ready(function(){
     }
   });
   
-  function setPictures(startIndex){
+  function setPictures(page){
     var pics = [];
-    for (var i = startIndex; i < startIndex + 9; i++){
+    var pageLength = 8;
+    var startIndex = page * pageLength;
+    for (var i = startIndex; i < startIndex + pageLength + 1; i++){
       if (i < sources.length){
-        pics.push(sources[i % 8]);
+        pics.push(sources[i]);
       }
     }
     $(".news-option").each(function(i, obj){
