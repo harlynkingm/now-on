@@ -219,5 +219,11 @@ $(document).ready(function(){
     localSources.splice(localSources.indexOf(source), 1);
     storeData('sources', localSources, getActiveSources);
   }
+    
+  function clearStorage(){
+      chrome.storage.sync.clear(function(){
+          console.log("ALL CLEAR");
+      });
+  }
 	
 });

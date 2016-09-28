@@ -17,7 +17,6 @@ $(document).ready(function () {
 loadContent = function loadContent(data){
   demos = [];
   dataLength = data.length;
-//  console.log(data);
   
   if(data.includes("espn")){
    $.ajax({
@@ -227,12 +226,15 @@ function xmlParserComplex(xml){
     
 function xmlParserVox(xml){
     var vox = [];
-    $(xml).find("item").each(function () {
+    $(xml).find("entry").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
       demo.source="Vox";
       demo.url= $(this).find("link").text();
-      demo.img = $(this).find("content").find("img").attr("src");
+      var temp_html = $(this).find("content").text();
+      var div = $("<div></div>");
+      div.html(temp_html);
+      demo.img = div.find("img").attr("src");
       if(demo.img){
         vox.push(demo);
       }
@@ -251,7 +253,10 @@ function xmlParserAVClub(xml){
       demo.title= htmlDecode($(this).find("title").text());
       demo.source="AV Club";
       demo.url= $(this).find("link").text();
-      demo.img = $(this).find("description").find("img").attr("src");
+      var temp_html = $(this).find("description").text();
+      var div = $("<div></div>");
+      div.html(temp_html);
+      demo.img = div.find("img").attr("src");
       if(demo.img){
         AVClub.push(demo);
       }
