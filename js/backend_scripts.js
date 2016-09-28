@@ -37,15 +37,15 @@ function weatherParser(data){
   var forecast = data["forecast"]["simpleforecast"]["forecastday"];
   var today = {};
   var tomorrow = {};
-  console.log(forecast);
+//  console.log(forecast);
   today.high = forecast[0]["high"]["fahrenheit"];
   today.low = forecast[0]["low"]["fahrenheit"];
   today.icon = forecast[0]["icon"];
   tomorrow.high = forecast[1]["high"]["fahrenheit"];
   tomorrow.low = forecast[1]["low"]["fahrenheit"];
   tomorrow.icon = forecast[1]["icon"];
-  console.log(today);
-  console.log(tomorrow);
+//  console.log(today);
+//  console.log(tomorrow);
   loadWeather(today,tomorrow)
 }
 
@@ -158,7 +158,6 @@ function xmlParserNYT(xml){
       img_url = $(this).find('media\\:content, content').attr('url');
       if (img_url){
         img_url = img_url.replace(/((moth)(-\w*))\.jpg|(moth)\.jpg/, 'master675.jpg');
-        console.log(img_url);
       }
       demo.img = img_url;
       if(demo.img){

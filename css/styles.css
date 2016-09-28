@@ -187,7 +187,11 @@ a{
 }
 
 .color-selector:hover{
-  transform: scale(0.9);
+  transform: scale(0.95);
+}
+
+.color-selector-active{
+  transform: scale(0.8) !important;
 }
 
 .news-option{

@@ -72,7 +72,7 @@ $(document).ready(function(){
 	}
   
   populateContent = function populateContent(contentList){
-    console.log(contentList);
+//    console.log(contentList);
     if (contentList.length > 0){
       $(".main-content").show();
       $(".content").each(function(i, obj){
@@ -106,33 +106,40 @@ $(document).ready(function(){
   function setColor(color){
     if (color){
       $(".bg-default").css("background-color", color);
+      $(".color-selector").each(function(i, obj){
+        if ($(obj).css("background-color") == color){
+          $(obj).addClass("color-selector-active");
+        }
+      });
     } else {
       saveColor("#020F29");
     }
   }
   
-  $(".color-selector").hover(function(){
-    var color = $(this).css("background-color");
-    $(".bg-default").css("transition", "background-color 0.5s");
-    setColor(color);
-  });
-  
-  $(".color-selector").mouseleave(function(){
-    var color = $(this).css("background-color");
-    saveColor(color);
-  });
-  
-//  $(".color-selector").click(function(){
+//  $(".color-selector").hover(function(){
 //    var color = $(this).css("background-color");
-//    saveColor(color);
 //    $(".bg-default").css("transition", "background-color 0.5s");
 //    setColor(color);
 //  });
+//  
+//  $(".color-selector").mouseleave(function(){
+//    var color = $(this).css("background-color");
+//    saveColor(color);
+//  });
+  
+  $(".color-selector").click(function(){
+    var color = $(this).css("background-color");
+    saveColor(color);
+    $(".bg-default").css("transition", "background-color 0.5s");
+    $(".color-selector-active").removeClass("color-selector-active");
+    setColor(color);
+  });
   
   function setDefaults(){
     $(".settings-container").hide();
     $(".back").hide();
     $(".main-content").hide();
+    $(".weather-content").hide();
   }
   
   $(".settings").click(function(){
@@ -230,8 +237,11 @@ $(document).ready(function(){
   loadWeather = function loadWeather(today, tomorrow){
       $("#weather-block-1 #temp-high").text(today.high);
       $("#weather-block-1 #temp-low").text(today.low);
+      $("#weather-block-1 .weather-icon").attr("src", "images/weather/" + today.icon + ".png");
       $("#weather-block-2 #temp-high").text(tomorrow.high);
       $("#weather-block-2 #temp-low").text(tomorrow.low);
+      $("#weather-block-2 .weather-icon").attr("src", "images/weather/" + tomorrow.icon + ".png");
+      $(".weather-content").fadeIn(300);
   }
 	
 });
