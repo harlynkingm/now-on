@@ -1,4 +1,5 @@
 var loadContent;
+
 $(document).ready(function () {
   //push all content to demos array then pick a random 7
   //check boxes equal to sources then display (list of whats checked and check for each content if source is in that array)
@@ -15,123 +16,123 @@ $(document).ready(function () {
       
   };
 
- function getWeather(){
-  //simple_forcast, high, low for two days and icon name
-  var startPos;
-  var lat;
-  var long;
-  var geoSuccess = function(position) {
-    startPos = position;
-    lat = startPos.coords.latitude;
-    long = startPos.coords.longitude;
-       $.ajax({
-       type: "GET",
-       url: "http://api.wunderground.com/api/dfea5ebf794779cb/forecast/q/"+lat+","+long+".json",
-       dataType: "JSON",
-       success: weatherParser
-      });
-  };
-  navigator.geolocation.getCurrentPosition(geoSuccess);
- }
-function weatherParser(data){
-  var forecast = data["forecast"]["simpleforecast"]["forecastday"];
-  var today = {};
-  var tomorrow = {};
-//  console.log(forecast);
-  today.high = forecast[0]["high"]["fahrenheit"];
-  today.low = forecast[0]["low"]["fahrenheit"];
-  today.icon = forecast[0]["icon"];
-  tomorrow.high = forecast[1]["high"]["fahrenheit"];
-  tomorrow.low = forecast[1]["low"]["fahrenheit"];
-  tomorrow.icon = forecast[1]["icon"];
-//  console.log(today);
-//  console.log(tomorrow);
-  loadWeather(today,tomorrow)
-}
+  function getWeather(){
+    //simple_forcast, high, low for two days and icon name
+    var startPos;
+    var lat;
+    var long;
+    var geoSuccess = function(position) {
+      startPos = position;
+      lat = startPos.coords.latitude;
+      long = startPos.coords.longitude;
+         $.ajax({
+         type: "GET",
+         url: "http://api.wunderground.com/api/dfea5ebf794779cb/forecast/q/"+lat+","+long+".json",
+         dataType: "JSON",
+         success: weatherParser
+        });
+    };
+    navigator.geolocation.getCurrentPosition(geoSuccess);
+  }
+  
+  function weatherParser(data){
+    var forecast = data["forecast"]["simpleforecast"]["forecastday"];
+    var today = {};
+    var tomorrow = {};
+    today.high = forecast[0]["high"]["fahrenheit"];
+    today.low = forecast[0]["low"]["fahrenheit"];
+    today.icon = forecast[0]["icon"];
+    tomorrow.high = forecast[1]["high"]["fahrenheit"];
+    tomorrow.low = forecast[1]["low"]["fahrenheit"];
+    tomorrow.icon = forecast[1]["icon"];
+    loadWeather(today,tomorrow)
+  }
 
-loadContent = function loadContent(data){
-  demos = [];
-  dataLength = data.length;
+  loadContent = function loadContent(data){
+    demos = [];
+    dataLength = data.length;
 
-  getWeather();
-  
-  if(data.includes("espn")){
-   $.ajax({
-       type: "GET",
-       url: "http://www.espn.com/espn/rss/news",
-       dataType: "xml",
-       success: xmlParserESPN
-      });
+    getWeather();
+
+    if(data.includes("espn")){
+     $.ajax({
+         type: "GET",
+         url: "http://www.espn.com/espn/rss/news",
+         dataType: "xml",
+         success: xmlParserESPN
+        });
+    }
+
+    if(data.includes("av-club")){
+        $.ajax({
+         type: "GET",
+         url: "http://www.avclub.com/feeds/rss/",
+         dataType: "xml",
+         success: xmlParserAVClub
+        });
+    }
+
+    if(data.includes("vox")){
+        $.ajax({
+         type: "GET",
+         url:  "http://www.vox.com/rss/index.xml",
+         dataType: "xml",
+         success: xmlParserVox
+        });
+    }
+
+    if(data.includes("new-york-times")){
+         $.ajax({
+         type: "GET",
+         url: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+         dataType: "xml",
+         success: xmlParserNYT
+        });
+    }
+
+    if(data.includes("complex")){
+         $.ajax({
+         type: "GET",
+         url: "http://assets.complex.com/feeds/channels/all.xml",
+         dataType: "xml",
+         success: xmlParserComplex
+        });
+    }
+
+    if(data.includes("buzzfeed")){
+        $.ajax({
+         type: "GET",
+         url: "https://www.buzzfeed.com/index.xml",
+         dataType: "xml",
+         success: xmlParserBuzzfeed
+        });
+    }
+
+    if(data.includes("abc-news")){
+        $.ajax({
+         type: "GET",
+         url: "http://feeds.abcnews.com/abcnews/topstories",
+         dataType: "xml",
+         success: xmlParserABC
+        });
+    }
+
+    if(data.includes("pitchfork")){
+        $.ajax({
+         type: "GET",
+         url: 'http://pitchfork.com/rss/news/',
+         dataType: "xml",
+         success: xmlParserPitchfork
+        });
+    }
+
+    if (data.length == 0){
+      populateContent(data);
+    }
+
   }
-  
-  if(data.includes("av-club")){
-      $.ajax({
-       type: "GET",
-       url: "http://www.avclub.com/feeds/rss/",
-       dataType: "xml",
-       success: xmlParserAVClub
-      });
-  }
-  
-  if(data.includes("vox")){
-      $.ajax({
-       type: "GET",
-       url:  "http://www.vox.com/rss/index.xml",
-       dataType: "xml",
-       success: xmlParserVox
-      });
-  }
-  
-  if(data.includes("new-york-times")){
-       $.ajax({
-       type: "GET",
-       url: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-       dataType: "xml",
-       success: xmlParserNYT
-      });
-  }
-  
-  if(data.includes("complex")){
-       $.ajax({
-       type: "GET",
-       url: "http://assets.complex.com/feeds/channels/all.xml",
-       dataType: "xml",
-       success: xmlParserComplex
-      });
-  }
-  
-  if(data.includes("buzzfeed")){
-      $.ajax({
-       type: "GET",
-       url: "https://www.buzzfeed.com/index.xml",
-       dataType: "xml",
-       success: xmlParserBuzzfeed
-      });
-  }
-  
-  if(data.includes("abc-news")){
-      $.ajax({
-       type: "GET",
-       url: "http://feeds.abcnews.com/abcnews/topstories",
-       dataType: "xml",
-       success: xmlParserABC
-      });
-  }
-  
-  if(data.includes("pitchfork")){
-      $.ajax({
-       type: "GET",
-       url: 'http://pitchfork.com/rss/news/',
-       dataType: "xml",
-       success: xmlParserPitchfork
-      });
-  }
-  if (data.length == 0){
-    populateContent(data);
-  }
-  
-}
-function xmlParserPitchfork(xml){
+
+  function xmlParserPitchfork(xml){
     var pitchfork = [];
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
@@ -141,14 +142,15 @@ function xmlParserPitchfork(xml){
       demo.img = $(this).find("enclosure").attr("url");
       pitchfork.push(demo);
     });
-      if(pitchfork.length > 7){
-         demos.push(pitchfork); 
-      }
-      if(demos.length == dataLength ){
-        populateContentList(demos);
-       }
-}
-function xmlParserNYT(xml){
+    if(pitchfork.length > 7){
+       demos.push(pitchfork); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
+  
+  function xmlParserNYT(xml){
     var nyt = [];
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
@@ -164,15 +166,15 @@ function xmlParserNYT(xml){
         nyt.push(demo);
       }
     });
-      if(nyt.length > 7){
-         demos.push(nyt); 
-      }
-      if(demos.length == dataLength ){
-        populateContentList(demos);
-       }
-}
+    if(nyt.length > 7){
+       demos.push(nyt); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
     
-function xmlParserABC(xml){
+  function xmlParserABC(xml){
     var abc = [];
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
@@ -184,15 +186,15 @@ function xmlParserABC(xml){
         abc.push(demo);
       }
     });
-      if(abc.length > 7){
-         demos.push(abc); 
-      }
-      if(demos.length == dataLength ){
-        populateContentList(demos);
-       }
-}
+    if(abc.length > 7){
+       demos.push(abc); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
     
-function xmlParserBuzzfeed(xml){
+  function xmlParserBuzzfeed(xml){
     var buzzfeed = [];
     var bonus = [];
     $(xml).find("item").each(function () {
@@ -223,10 +225,10 @@ function xmlParserBuzzfeed(xml){
     }
     if(demos.length == dataLength ){
       populateContentList(demos);
-     }
-}
+    }
+  }
     
-function xmlParserComplex(xml){
+  function xmlParserComplex(xml){
     var complex = [];
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
@@ -238,26 +240,21 @@ function xmlParserComplex(xml){
         complex.push(demo);
       }
     });
-      if(complex.length > 7){
-         demos.push(complex); 
-      }
-      if(demos.length == dataLength ){
-        populateContentList(demos);
-       }
-}
+    if(complex.length > 7){
+       demos.push(complex); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
 
-
- function xmlParserESPN(xml) {
-
-   var espn_content = [];
-
-   $(xml).find("item").each(function () {
-
+  function xmlParserESPN(xml) {
+    var espn_content = [];
+    $(xml).find("item").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("description").text());
       demo.source="ESPN";
       demo.url= $(this).find("link").text();
-     
       $.ajax({
         url: demo.url,
         success: function(data) {
@@ -268,24 +265,23 @@ function xmlParserComplex(xml){
           }
           if(espn_content.length > 5){
               demos.push(espn_content);
-                           
+
           }
           if(demos.length == dataLength ){
               populateContentList(demos);
           }
         }
       });
-       
-  });
-}
+    });
+  }
     
-function xmlParserVox(xml){
+  function xmlParserVox(xml){
     var vox = [];
     $(xml).find("entry").each(function () {
       var demo = new ContentObject();
       demo.title= htmlDecode($(this).find("title").text());
       demo.source="Vox";
-      demo.url= $(this).find("link").text();
+      demo.url= $(this).find("id").text();
       var temp_html = $(this).find("content").text();
       var div = $("<div></div>");
       div.html(temp_html);
@@ -294,14 +290,15 @@ function xmlParserVox(xml){
         vox.push(demo);
       }
     });
-      if(vox.length > 7){
-         demos.push(vox); 
-      }
-      if(demos.length == dataLength ){
-        populateContentList(demos);
-       }
-}  
-function xmlParserAVClub(xml){
+    if(vox.length > 7){
+       demos.push(vox); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
+  
+  function xmlParserAVClub(xml){
     var AVClub = [];
     $(xml).find("item").each(function () {
       var demo = new ContentObject();
@@ -316,13 +313,13 @@ function xmlParserAVClub(xml){
         AVClub.push(demo);
       }
     });
-      if(AVClub.length > 7){
-         demos.push(AVClub); 
-      }
-      if(demos.length == dataLength ){
-        populateContentList(demos);
-       }
-}
+    if(AVClub.length > 7){
+      demos.push(AVClub); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
     
   function htmlDecode(input){
     var e = document.createElement('div');
@@ -330,19 +327,19 @@ function xmlParserAVClub(xml){
     return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   }
     
-   function populateContentList(demos){
-       var final_array = [];
+  function populateContentList(demos){
+     var final_array = [];
 
-       while(final_array.length<7){
-           var rand_site = Math.floor(Math.random() * demos.length);
-           var rand_content = Math.floor(Math.random() * demos[rand_site].length);
-           final_array.push(demos[rand_site][rand_content]);
-           //remove content so not showed twice
-           demos[rand_site].splice(rand_content, 1);
-       }
-       populateContent(final_array)
-       
-   }
+     while(final_array.length<7){
+         var rand_site = Math.floor(Math.random() * demos.length);
+         var rand_content = Math.floor(Math.random() * demos[rand_site].length);
+         final_array.push(demos[rand_site][rand_content]);
+         //remove content so not showed twice
+         demos[rand_site].splice(rand_content, 1);
+     }
+     populateContent(final_array)
+
+  }
   
   getData('sources', loadContent);
     
