@@ -130,7 +130,7 @@ a{
 .inner-news-title{
   font-size: 25px;
   line-height: 1.1em;
-  max-height: 5.5em;
+  max-height: 10em;
   width: 80%;
   position: absolute;
   bottom: 0px;
@@ -146,10 +146,6 @@ a{
 
 .inner-news-src{
   font-size: 12px;
-}
-
-.title-side{
-  max-height: 7.7em;
 }
 
 .top-row .content-block{

@@ -119,7 +119,8 @@ function xmlParserNYT(xml){
       demo.title= htmlDecode($(this).find("title").text());
       demo.source="New York Times";
       demo.url= $(this).find("link").text();
-      demo.img = $(this).find('media\\:content, content').attr('url');
+      img_url = $(this).find('media\\:content, content').attr('url');
+      demo.img = img_url;
       if(demo.img){
         nyt.push(demo);
       }
