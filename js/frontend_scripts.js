@@ -18,15 +18,15 @@ var sources = [
   new Source('abc-news', "images/logos/abcnews.png"),
   new Source('complex', "images/logos/complex.jpg"),
   new Source('vox', "images/logos/vox.jpg"),
-  new Source('buzzfeed', "images/logos/buzzfeed.png")
-//  new Source('onion', "images/logos/onion.png"),  
-//  new Source('mic', "images/logos/mic.jpg"),  
-//  new Source('five-thirty-eight', "images/logos/fivethirtyeight.jpg"),  
-//  new Source('business-insider', "images/logos/businessinsider.png"),  
-//  new Source('people', "images/logos/people.png"),  
-//  new Source('associated-press', "images/logos/ap.jpg"),  
-//  new Source('fortune', "images/logos/fortune.png"),  
-//  new Source('cosmopolitan', "images/logos/cosmopolitan.png"),  
+  new Source('buzzfeed', "images/logos/buzzfeed.png"),
+  new Source('onion', "images/logos/onion.png"),  
+  new Source('rolling-stone', "images/logos/rollingstone.jpg"),  
+  new Source('five-thirty-eight', "images/logos/fivethirtyeight.jpg"),  
+  new Source('business-insider', "images/logos/businessinsider.png"),  
+  new Source('people', "images/logos/people.png"),  
+  new Source('associated-press', "images/logos/ap.jpg"),  
+  new Source('fortune', "images/logos/fortune.png"),  
+  new Source('cosmopolitan', "images/logos/cosmopolitan.png")  
 //  new Source('chicago-tribune', "images/logos/chicago-tribune.png"),  
 //  new Source('fox', "images/logos/fox.jpg"),  
 //  new Source('ign', "images/logos/ign.png"),  
@@ -62,7 +62,7 @@ $(document).ready(function(){
     getColor();
     setDefaults();
     var sourcePage = 0;
-    var totalPages = 1;
+    var totalPages = 2;
     setPictures(sourcePage);
 	
 	setInterval(function(){

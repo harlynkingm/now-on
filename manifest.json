@@ -1,7 +1,7 @@
 {
   "name": "NowOn - Personal News Filter",
   "description": "A new way to see the news that matters to you.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "index.html"
@@ -15,7 +15,23 @@
     "http://feeds.abcnews.com/abcnews/topstories", 
     "http://www.avclub.com/feeds/rss/", 
     "http://www.vox.com/rss/index.xml",
-    "http://assets.complex.com/feeds/channels/all.xml"
+    "http://assets.complex.com/feeds/channels/all.xml",
+    "http://www.theonion.com/feeds/rss",
+    "http://www.rollingstone.com/rss",
+    "http://fivethirtyeight.com/all/feed",
+    "http://www.businessinsider.com/rss",
+    "http://rss.people.com/web/people/rss/topheadlines/index.xml",
+    "http://hosted.ap.org/lineups/TOPHEADS.rss?SITE=AP&SECTION=HOME",
+    "http://fortune.com/feed/",
+    "http://www.cosmopolitan.com/rss/all.xml/",
+    "http://www.chicagotribune.com/rss2.0.xml",
+    "http://feeds.foxnews.com/foxnews/latest?format=xml",
+    "http://feeds.ign.com/ign/all?format=xml",
+    "http://feeds.bbci.co.uk/news/rss.xml#",
+    "http://feeds.reuters.com/reuters/topNews?format=xml",
+    "http://www.economist.com/sections/international/rss.xml",
+    "https://www.wired.com/feed/",
+    "http://feeds.arstechnica.com/arstechnica/index?format=xml"
   ],
   "manifest_version": 2,
   "icons":{

@@ -127,8 +127,6 @@ $(document).ready(function () {
         });
     }
     
-    // UNIMPLEMENTED API'S
-    
     if(data.includes("onion")){
         $.ajax({
          type: "GET",
@@ -138,12 +136,12 @@ $(document).ready(function () {
         });
     }    
     
-    if(data.includes("mic")){
+    if(data.includes("rolling-stone")){
         $.ajax({
          type: "GET",
-         url: 'https://mic.com/archive',
+         url: 'http://www.rollingstone.com/rss',
          dataType: "xml",
-         success: xmlParserMic
+         success: xmlParserRollingStone
         });
     }    
     
@@ -466,6 +464,92 @@ $(document).ready(function () {
     });
     if(AVClub.length > 7){
       demos.push(AVClub); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
+  
+  function xmlParserOnion(xml){
+    var Onion = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      demo.source="The Onion";
+      demo.url= $(this).find("link").text();
+      var temp_html = $(this).find("description").text();
+      var div = $("<div></div>");
+      div.html(temp_html);
+      demo.img = div.find("img").attr("src");
+      if(demo.img){
+        Onion.push(demo);
+      }
+    });
+    if(Onion.length > 7){
+      demos.push(Onion); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
+  
+  function xmlParserRollingStone(xml){
+    var RollingStone = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      demo.source="Rolling Stone";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find('media\\:content, content').attr("url");
+      if(demo.img){
+        RollingStone.push(demo);
+      }
+    });
+    if(RollingStone.length > 7){
+      demos.push(RollingStone); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
+  
+  function xmlParserFTE(xml){
+    var FiveThirtyEight = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title:first").text());
+      demo.source="FiveThirtyEight";
+      demo.url= $(this).find("link").text();
+      demo.img = $(this).find('media\\:content, content').attr("url");
+      if(demo.img){
+        FiveThirtyEight.push(demo);
+      }
+    });
+    if(FiveThirtyEight.length > 7){
+      demos.push(FiveThirtyEight); 
+    }
+    if(demos.length == dataLength ){
+      populateContentList(demos);
+    }
+  }
+  
+  function xmlParserBI(xml){
+    var BusinessInsider = [];
+    $(xml).find("item").each(function () {
+      var demo = new ContentObject();
+      demo.title= htmlDecode($(this).find("title").text());
+      demo.source="Business Insider";
+      demo.url= $(this).find("link").text();
+      var temp_html = $(this).find("description").text();
+      var div = $("<div></div>");
+      div.html(temp_html);
+      demo.img = div.find("img").attr("src");
+      if(demo.img && !demo.img.includes(" ")){
+        BusinessInsider.push(demo);
+      }
+    });
+    if(BusinessInsider.length > 7){
+      demos.push(BusinessInsider); 
     }
     if(demos.length == dataLength ){
       populateContentList(demos);
