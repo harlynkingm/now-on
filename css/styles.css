@@ -92,6 +92,7 @@ a{
   background-color: #eee;
   background-size: cover;
   background-position: top;
+  transition: opacity 0.2s;
 }
 
 .inner-block{

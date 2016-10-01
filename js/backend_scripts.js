@@ -64,7 +64,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
           xmlParserImageInside(data, "ESPN", "item", "description", "link", innerImage, ["picture:first source:first", "srcset"]);
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
       });
     }
 
@@ -74,8 +77,11 @@ $(document).ready(function () {
          url: "http://www.avclub.com/feeds/rss/",
          dataType: "xml",
          success: function(data){
-           xmlParser(data, "AV Club", "item", "title", "link", divImage, ["description", "src"]);
-         }
+           xmlParser(data, "AV Club", "item", "title", "link", divImage, ["description", "img", "src"]);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
 
@@ -85,8 +91,11 @@ $(document).ready(function () {
          url:  "http://www.vox.com/rss/index.xml",
          dataType: "xml",
          success: function(data){
-           xmlParser(data, "Vox", "entry", "title", "id", divImage, ["content", "src"]);
-         }
+           xmlParser(data, "Vox", "entry", "title", "id", divImage, ["content", "img", "src"]);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
 
@@ -97,7 +106,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParserNYT(data);
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
 
@@ -108,7 +120,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "Complex", "item", "title", "link", normalImage, "enclosure");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
 
@@ -119,7 +134,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "Buzzfeed", "item", "title", "link", buzzfeedImage, "media\\:content, content");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
 
@@ -130,7 +148,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "ABC News", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
 
@@ -141,7 +162,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "Pitchfork", "item", "title", "link", normalImage, "enclosure");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
     
@@ -151,8 +175,11 @@ $(document).ready(function () {
          url: 'http://www.theonion.com/feeds/rss',
          dataType: "xml",
          success: function(data){
-           xmlParser(data, "The Onion", "item", "title", "link", divImage, ["description", "src"]);
-         }
+           xmlParser(data, "The Onion", "item", "title", "link", divImage, ["description", "img", "src"]);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -163,7 +190,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "Rolling Stone", "item", "title", "link", normalImage, "media\\:content, content");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -174,7 +204,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "FiveThirtyEight", "item", "title:first", "link", normalImage, "media\\:content, content");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -185,7 +218,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "Business Insider", "item", "title", "link", biImage, "description");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -196,7 +232,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
           xmlParser(data, "People", "item", "title", "link", normalImage, "media\\:content, content");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -207,7 +246,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParserImageInside(data, "AP", "item", "title", "link", apImage, "img:first");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -218,7 +260,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
           xmlParser(data, "Fortune", "item", "title:first", "link", normalImage, "media\\:content, content");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -228,8 +273,11 @@ $(document).ready(function () {
          url: 'http://www.cosmopolitan.com/rss/all.xml/',
          dataType: "xml",
          success: function(data){
-           xmlParser(data, "Cosmopolitan", "item", "title", "link", cosmoImage, ["description", "href"]);
-         }
+           xmlParser(data, "Cosmopolitan", "item", "title", "link", cosmoImage, ["description", "img", "href"]);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -240,7 +288,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParserImageInside(data, "Chicago Tribune", "item", "title", "link", tribuneImage, ["img:first", "src"]);
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
 
@@ -251,7 +302,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParserImageInside(data, "Fox News", "item", "title", "link", innerImage, [".m img:first", "src"]);
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -262,7 +316,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParserImageInside(data, "IGN", "item", "title", "link", ignImage, ['meta', 'content']);
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -273,7 +330,10 @@ $(document).ready(function () {
          dataType: "xml",
          success: function(data){
            xmlParser(data, "BBC News", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
-         }
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -283,9 +343,11 @@ $(document).ready(function () {
          url: 'http://feeds.reuters.com/reuters/topNews?format=xml',
          dataType: "xml",
          success: function(data){
-           console.log(data);
-           xmlParser(data, "Reuters", "item", "title", "link", divImage, ["description", "src"]);
-         }
+           xmlParserImageInside(data, "Reuters", "item", "title", "link", innerImage, [".nav-share", "data-share-img"]);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -294,7 +356,12 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://www.economist.com/sections/international/rss.xml',
          dataType: "xml",
-         success: xmlParserEconomist
+         success: function(data){
+           xmlParserImageInside(data, "Economist", "item", "title", "link", economistImage, ["meta[name='twitter:image']", "content"]);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -303,7 +370,12 @@ $(document).ready(function () {
          type: "GET",
          url: 'https://www.wired.com/feed/',
          dataType: "xml",
-         success: xmlParserWired
+         success: function(data){
+           xmlParserImageInside(data, "Wired", "item", "title", "link", innerImage, ["meta[name='twitter:image:src']", "content"]);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }    
     
@@ -312,7 +384,12 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://feeds.arstechnica.com/arstechnica/index?format=xml',
          dataType: "xml",
-         success: xmlParserArsTechnica
+         success: function(data){
+           xmlParser(data, "Ars Technica", "item", "title", "link", arsImage, []);
+         },
+        error: function(){
+          dataLength--;
+        }
         });
     }
 
@@ -334,7 +411,7 @@ $(document).ready(function () {
         contents.push(content);
       }
     });
-    if (contents.length > 7){
+    if (contents.length > 5){
       demos.push(contents);
     }
     if (demos.length == dataLength){
@@ -377,16 +454,32 @@ $(document).ready(function () {
     var temp_html = $(data).find(imgData[0]).text();
     var div = $("<div></div>");
     div.html(temp_html);
-    return div.find("img").attr(imgData[1]);
+    return div.find(imgData[1]).attr(imgData[2]);
   }
   
   function innerImage(data, imgData){
-    var url = $(data).find(imgData[0]).attr(imgData[1]);
+    var div = $("<div></div>");
+    div.html(data);
+    var url = div.find(imgData[0]).attr(imgData[1]);
     if (url && url.startsWith("//")){
       url = "http:" + url;
     }
     if (url && !url.includes(" ")){
       return url;
+    }
+  }
+  
+  function arsImage(data, imgData){
+    var url = $($($(data).get(0).lastElementChild).html()).find("img").attr("src");
+    if (url && url.endsWith(".jpg")){
+      return $($($(data).get(0).lastElementChild).html()).find("img").attr("src");
+    }
+  }
+  
+  function economistImage(data, imgData){
+    var tempImg = innerImage(data, imgData);
+    if (tempImg && !tempImg.endsWith("107.jpg")){
+      return tempImg;
     }
   }
   
@@ -438,7 +531,7 @@ $(document).ready(function () {
   }
   
   function biImage(data, imgRef){
-    var temp = divImage(data, [imgRef, "src"]);
+    var temp = divImage(data, [imgRef, "img", "src"]);
     if (temp && !temp.includes(" ")){
       return temp;
     } else {
