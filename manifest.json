@@ -2,7 +2,7 @@
   "name": "NowOn - Personal News Filter",
   "short_name": "NowOn",
   "description": "A new way to see the news that matters to you.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "index.html"
