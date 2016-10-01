@@ -4,37 +4,38 @@ var loadWeather;
 var hideContent;
 
 class Source{
-  constructor(title, image){
+  constructor(title, image, domain){
     this.title = title; //String source title
     this.image = image; //String local image
+    this.domain = domain; //String domain name
   }
 };
 
 var sources = [
-  new Source('espn', "images/logos/espn.png"),
-  new Source('av-club', "images/logos/avclub.png"),
-  new Source('pitchfork', "images/logos/pitchfork.png"),
-  new Source('new-york-times', "images/logos/nyt.png"),
-  new Source('abc-news', "images/logos/abcnews.png"),
-  new Source('complex', "images/logos/complex.jpg"),
-  new Source('vox', "images/logos/vox.jpg"),
-  new Source('buzzfeed', "images/logos/buzzfeed.png"),
-  new Source('onion', "images/logos/onion.png"),  
-  new Source('rolling-stone', "images/logos/rollingstone.jpg"),  
-  new Source('five-thirty-eight', "images/logos/fivethirtyeight.jpg"),  
-  new Source('business-insider', "images/logos/businessinsider.png"),  
-  new Source('people', "images/logos/people.png"),  
-  new Source('associated-press', "images/logos/ap.jpg"),  
-  new Source('fortune', "images/logos/fortune.png"),  
-  new Source('cosmopolitan', "images/logos/cosmopolitan.png"),  
-  new Source('chicago-tribune', "images/logos/chicago-tribune.png"),  
-  new Source('fox', "images/logos/fox.jpg"),  
-  new Source('ign', "images/logos/ign.png"),  
-  new Source('bbc', "images/logos/bbc.png"),  
-  new Source('reuters', "images/logos/reuters.jpg"),  
-  new Source('economist', "images/logos/economist.png"),  
-  new Source('wired', "images/logos/wired.jpg"),  
-  new Source('ars-technica', "images/logos/ars-technica.png")
+  new Source('espn', "images/logos/espn.png", "espn.com"),
+  new Source('av-club', "images/logos/avclub.png", "avclub.com"),
+  new Source('pitchfork', "images/logos/pitchfork.png", "pitchfork.com"),
+  new Source('new-york-times', "images/logos/nyt.png", "nytimes.com"),
+  new Source('abc-news', "images/logos/abcnews.png", "abcnews.com"),
+  new Source('complex', "images/logos/complex.jpg", "complex.com"),
+  new Source('vox', "images/logos/vox.jpg", "vox.com"),
+  new Source('buzzfeed', "images/logos/buzzfeed.png", "buzzfeed.com"),
+  new Source('onion', "images/logos/onion.png", "theonion.com"),
+  new Source('rolling-stone', "images/logos/rollingstone.jpg", "rollingstone.com"),  
+  new Source('five-thirty-eight', "images/logos/fivethirtyeight.jpg", "fivethirtyeight.com"),
+  new Source('business-insider', "images/logos/businessinsider.png", "businessinsider.com"),
+  new Source('people', "images/logos/people.png", "people.com"),
+  new Source('associated-press', "images/logos/ap.jpg", "ap.org"),
+  new Source('fortune', "images/logos/fortune.png", "fortune.com"),  
+  new Source('cosmopolitan', "images/logos/cosmopolitan.png", "cosmopolitan.com"),  
+  new Source('chicago-tribune', "images/logos/chicago-tribune.png", "chicagotribune.com"),  
+  new Source('fox', "images/logos/fox.jpg", "foxnews.com"),  
+  new Source('ign', "images/logos/ign.png", "ign.com"),  
+  new Source('bbc', "images/logos/bbc.png", "bbc.com"),  
+  new Source('reuters', "images/logos/reuters.jpg", "reuters.com"),  
+  new Source('economist', "images/logos/economist.png", "economist.com"),  
+  new Source('wired', "images/logos/wired.jpg", "wired.com"),  
+  new Source('ars-technica', "images/logos/ars-technica.png", "arstechnica.com")
 ];
 
 $(document).ready(function(){
@@ -55,6 +56,8 @@ $(document).ready(function(){
         callback(data[key]);
       });
     }
+    
+    //clearStorage();
 	
     var localSources = []; // Local version for updating
 	updateTime();
@@ -63,7 +66,7 @@ $(document).ready(function(){
     setDefaults();
     var sourcePage = 0;
     var totalPages = 3;
-    setPictures(sourcePage);
+    getData('sources', checkSources);
 	
 	setInterval(function(){
 		updateTime();
@@ -227,6 +230,15 @@ $(document).ready(function(){
     getActiveSources();
   };
   
+  function checkSources(data){
+    if (data){
+      setPictures(sourcePage);
+      loadContent(data);
+    } else {
+      defaultSources();
+    }
+  };
+  
   function getActiveSources(){
     getData('sources', setActiveSources);
   }
@@ -241,10 +253,26 @@ $(document).ready(function(){
           $(obj).removeClass("news-option-active");
         }
       });
-    } else {
-      localSources = ['espn']; // DEFAULT
-      storeData('sources', localSources, getActiveSources);
     }
+  }
+  
+  function defaultSources(){
+    chrome.history.search({text:"", maxResults:200}, function(results){
+      for (var i = 0; i < results.length; i++){
+        var domain = results[i].url.split("/")[2];
+        for (var s = 0; s < sources.length; s++){
+          if (domain.includes(sources[s].domain) && !localSources.includes(sources[s].title)){
+            localSources.push(sources[s].title);
+          }
+        }
+      }
+      if (localSources.length == 0){
+        localSources = ['abc-news', 'new-york-times'];
+      }
+      storeData('sources', localSources, getActiveSources);
+      setPictures(sourcePage);
+      loadContent(localSources);
+    });
   }
   
   function addSource(source){

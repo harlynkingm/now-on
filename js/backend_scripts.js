@@ -586,7 +586,5 @@ $(document).ready(function () {
      populateContent(final_array)
 
   }
-  
-  getData('sources', loadContent);
     
 });
