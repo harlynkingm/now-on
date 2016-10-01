@@ -411,7 +411,7 @@ $(document).ready(function () {
         contents.push(content);
       }
     });
-    if (contents.length > 5){
+    if (contents.length){
       demos.push(contents);
     }
     if (demos.length == dataLength){
