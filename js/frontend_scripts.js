@@ -26,15 +26,15 @@ var sources = [
   new Source('people', "images/logos/people.png"),  
   new Source('associated-press', "images/logos/ap.jpg"),  
   new Source('fortune', "images/logos/fortune.png"),  
-  new Source('cosmopolitan', "images/logos/cosmopolitan.png")  
-//  new Source('chicago-tribune', "images/logos/chicago-tribune.png"),  
-//  new Source('fox', "images/logos/fox.jpg"),  
-//  new Source('ign', "images/logos/ign.png"),  
-//  new Source('bbc', "images/logos/bbc.png"),  
-//  new Source('reuters', "images/logos/reuters.jpg"),  
-//  new Source('economist', "images/logos/economist.png"),  
-//  new Source('wired', "images/logos/wired.jpg"),  
-//  new Source('ars-technica', "images/logos/ars-technica.png")
+  new Source('cosmopolitan', "images/logos/cosmopolitan.png"),  
+  new Source('chicago-tribune', "images/logos/chicago-tribune.png"),  
+  new Source('fox', "images/logos/fox.jpg"),  
+  new Source('ign', "images/logos/ign.png"),  
+  new Source('bbc', "images/logos/bbc.png"),  
+  new Source('reuters', "images/logos/reuters.jpg"),  
+  new Source('economist', "images/logos/economist.png"),  
+  new Source('wired', "images/logos/wired.jpg"),  
+  new Source('ars-technica', "images/logos/ars-technica.png")
 ];
 
 $(document).ready(function(){
@@ -62,7 +62,7 @@ $(document).ready(function(){
     getColor();
     setDefaults();
     var sourcePage = 0;
-    var totalPages = 2;
+    var totalPages = 3;
     setPictures(sourcePage);
 	
 	setInterval(function(){

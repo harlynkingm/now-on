@@ -50,6 +50,8 @@ $(document).ready(function () {
 
   loadContent = function loadContent(data){
     hideContent();
+    
+    //Reset params
     demos = [];
     dataLength = data.length;
 
@@ -69,7 +71,9 @@ $(document).ready(function () {
          type: "GET",
          url: "http://www.avclub.com/feeds/rss/",
          dataType: "xml",
-         success: xmlParserAVClub
+         success: function(data){
+           xmlParser(data, "AV Club", "item", "title", "link", divImage, "description");
+         }
         });
     }
 
@@ -78,7 +82,9 @@ $(document).ready(function () {
          type: "GET",
          url:  "http://www.vox.com/rss/index.xml",
          dataType: "xml",
-         success: xmlParserVox
+         success: function(data){
+           xmlParser(data, "Vox", "entry", "title", "id", divImage, "content");
+         }
         });
     }
 
@@ -87,7 +93,9 @@ $(document).ready(function () {
          type: "GET",
          url: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
          dataType: "xml",
-         success: xmlParserNYT
+         success: function(data){
+           xmlParserNYT(data);
+         }
         });
     }
 
@@ -96,7 +104,9 @@ $(document).ready(function () {
          type: "GET",
          url: "http://assets.complex.com/feeds/channels/all.xml",
          dataType: "xml",
-         success: xmlParserComplex
+         success: function(data){
+           xmlParser(data, "Complex", "item", "title", "link", normalImage, "enclosure");
+         }
         });
     }
 
@@ -105,7 +115,9 @@ $(document).ready(function () {
          type: "GET",
          url: "https://www.buzzfeed.com/index.xml",
          dataType: "xml",
-         success: xmlParserBuzzfeed
+         success: function(data){
+           xmlParser(data, "Buzzfeed", "item", "title", "link", buzzfeedImage, "media\\:content, content");
+         }
         });
     }
 
@@ -114,7 +126,9 @@ $(document).ready(function () {
          type: "GET",
          url: "http://feeds.abcnews.com/abcnews/topstories",
          dataType: "xml",
-         success: xmlParserABC
+         success: function(data){
+           xmlParser(data, "ABC News", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
+         }
         });
     }
 
@@ -123,7 +137,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://pitchfork.com/rss/news/',
          dataType: "xml",
-         success: xmlParserPitchfork
+         success: function(data){
+           xmlParser(data, "Pitchfork", "item", "title", "link", normalImage, "enclosure");
+         }
         });
     }
     
@@ -132,7 +148,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://www.theonion.com/feeds/rss',
          dataType: "xml",
-         success: xmlParserOnion
+         success: function(data){
+           xmlParser(data, "The Onion", "item", "title", "link", divImage, "description");
+         }
         });
     }    
     
@@ -141,7 +159,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://www.rollingstone.com/rss',
          dataType: "xml",
-         success: xmlParserRollingStone
+         success: function(data){
+           xmlParser(data, "Rolling Stone", "item", "title", "link", normalImage, "media\\:content, content");
+         }
         });
     }    
     
@@ -150,7 +170,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://fivethirtyeight.com/all/feed',
          dataType: "xml",
-         success: xmlParserFTE
+         success: function(data){
+           xmlParser(data, "FiveThirtyEight", "item", "title:first", "link", normalImage, "media\\:content, content");
+         }
         });
     }    
     
@@ -159,7 +181,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://www.businessinsider.com/rss',
          dataType: "xml",
-         success: xmlParserBI
+         success: function(data){
+           xmlParser(data, "Business Insider", "item", "title", "link", biImage, "description");
+         }
         });
     }    
     
@@ -276,22 +300,59 @@ $(document).ready(function () {
     }
 
   }
-
-  function xmlParserPitchfork(xml){
-    var pitchfork = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="PitchFork";
-      demo.url= $(this).find("link").text();
-      demo.img = $(this).find("enclosure").attr("url");
-      pitchfork.push(demo);
+  
+  function xmlParser(data, source, itemRef, titleRef, urlRef, imageFunction, imageParams){
+    var contents = [];
+    $(data).find(itemRef).each(function() {
+      var content = new ContentObject();
+      content.title = htmlDecode($(this).find(titleRef).text());
+      content.source = source;
+      content.url = $(this).find(urlRef).text();
+      content.img = imageFunction(this, imageParams);
+      if (content.img){
+        contents.push(content);
+      }
     });
-    if(pitchfork.length > 7){
-       demos.push(pitchfork); 
+    if (contents.length > 7){
+      demos.push(contents);
     }
-    if(demos.length == dataLength ){
+    if (demos.length == dataLength){
       populateContentList(demos);
+    }
+  }
+  
+  function normalImage(data, imgRef){
+    return $(data).find(imgRef).attr("url");
+  }
+  
+  function divImage(data, imgRef){
+    var temp_html = $(data).find(imgRef).text();
+    var div = $("<div></div>");
+    div.html(temp_html);
+    return div.find("img").attr("src");
+  }
+  
+  function buzzfeedImage(data, imgRef){
+    var returnImage = "";
+    var tempImg = "";
+    $(data).find(imgRef).each(function(i, obj){
+      tempImg = $(obj).attr("url");
+      if (tempImg && tempImg.includes("=")){
+        returnImage = tempImg;
+      }
+    });
+    if (returnImage == ""){
+      returnImage = tempImg;
+    }
+    return returnImage;
+  }
+  
+  function biImage(data, imgRef){
+    var temp = divImage(data, imgRef);
+    if (temp && !temp.includes(" ")){
+      return temp;
+    } else {
+      return null;
     }
   }
   
@@ -317,80 +378,6 @@ $(document).ready(function () {
     });
     if(nyt.length > 7){
        demos.push(nyt); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-    
-  function xmlParserABC(xml){
-    var abc = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="ABC News";
-      demo.url= $(this).find("link").text();
-      demo.img = $(this).find('media\\:thumbnail, thumbnail').attr('url');
-      if(demo.img){
-        abc.push(demo);
-      }
-    });
-    if(abc.length > 7){
-       demos.push(abc); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-    
-  function xmlParserBuzzfeed(xml){
-    var buzzfeed = [];
-    var bonus = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="Buzzfeed";
-      demo.url= $(this).find("link").text();
-      $(this).find('media\\:content, content').each(function(i, obj){
-        var tempImg = $(obj).attr("url");
-        if (tempImg && tempImg.includes("=")){
-          demo.img = tempImg;
-        }
-      });
-      if(demo.img){
-        buzzfeed.push(demo);
-      } else {
-        demo.img = $(this).find('media\\:content, content').attr("url");
-        bonus.push(demo);
-      }
-    });
-    if(buzzfeed.length > 7){
-       demos.push(buzzfeed); 
-    } else {
-      while(buzzfeed.length < 7){
-        buzzfeed.push(bonus.pop());
-      }
-      demos.push(buzzfeed);
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-    
-  function xmlParserComplex(xml){
-    var complex = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="Complex";
-      demo.url= $(this).find("link").text();
-      demo.img = $(this).find("enclosure").attr("url");
-      if(demo.img){
-        complex.push(demo);
-      }
-    });
-    if(complex.length > 7){
-       demos.push(complex); 
     }
     if(demos.length == dataLength ){
       populateContentList(demos);
@@ -422,138 +409,6 @@ $(document).ready(function () {
         }
       });
     });
-  }
-    
-  function xmlParserVox(xml){
-    var vox = [];
-    $(xml).find("entry").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="Vox";
-      demo.url= $(this).find("id").text();
-      var temp_html = $(this).find("content").text();
-      var div = $("<div></div>");
-      div.html(temp_html);
-      demo.img = div.find("img").attr("src");
-      if(demo.img){
-        vox.push(demo);
-      }
-    });
-    if(vox.length > 7){
-       demos.push(vox); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-  
-  function xmlParserAVClub(xml){
-    var AVClub = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="AV Club";
-      demo.url= $(this).find("link").text();
-      var temp_html = $(this).find("description").text();
-      var div = $("<div></div>");
-      div.html(temp_html);
-      demo.img = div.find("img").attr("src");
-      if(demo.img){
-        AVClub.push(demo);
-      }
-    });
-    if(AVClub.length > 7){
-      demos.push(AVClub); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-  
-  function xmlParserOnion(xml){
-    var Onion = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="The Onion";
-      demo.url= $(this).find("link").text();
-      var temp_html = $(this).find("description").text();
-      var div = $("<div></div>");
-      div.html(temp_html);
-      demo.img = div.find("img").attr("src");
-      if(demo.img){
-        Onion.push(demo);
-      }
-    });
-    if(Onion.length > 7){
-      demos.push(Onion); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-  
-  function xmlParserRollingStone(xml){
-    var RollingStone = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="Rolling Stone";
-      demo.url= $(this).find("link").text();
-      demo.img = $(this).find('media\\:content, content').attr("url");
-      if(demo.img){
-        RollingStone.push(demo);
-      }
-    });
-    if(RollingStone.length > 7){
-      demos.push(RollingStone); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-  
-  function xmlParserFTE(xml){
-    var FiveThirtyEight = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title:first").text());
-      demo.source="FiveThirtyEight";
-      demo.url= $(this).find("link").text();
-      demo.img = $(this).find('media\\:content, content').attr("url");
-      if(demo.img){
-        FiveThirtyEight.push(demo);
-      }
-    });
-    if(FiveThirtyEight.length > 7){
-      demos.push(FiveThirtyEight); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
-  }
-  
-  function xmlParserBI(xml){
-    var BusinessInsider = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("title").text());
-      demo.source="Business Insider";
-      demo.url= $(this).find("link").text();
-      var temp_html = $(this).find("description").text();
-      var div = $("<div></div>");
-      div.html(temp_html);
-      demo.img = div.find("img").attr("src");
-      if(demo.img && !demo.img.includes(" ")){
-        BusinessInsider.push(demo);
-      }
-    });
-    if(BusinessInsider.length > 7){
-      demos.push(BusinessInsider); 
-    }
-    if(demos.length == dataLength ){
-      populateContentList(demos);
-    }
   }
     
   function htmlDecode(input){
