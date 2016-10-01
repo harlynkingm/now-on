@@ -58,12 +58,14 @@ $(document).ready(function () {
     getWeather();
 
     if(data.includes("espn")){
-     $.ajax({
+      $.ajax({
          type: "GET",
          url: "http://www.espn.com/espn/rss/news",
          dataType: "xml",
-         success: xmlParserESPN
-        });
+         success: function(data){
+          xmlParserImageInside(data, "ESPN", "item", "description", "link", innerImage, ["picture:first source:first", "srcset"]);
+         }
+      });
     }
 
     if(data.includes("av-club")){
@@ -72,7 +74,7 @@ $(document).ready(function () {
          url: "http://www.avclub.com/feeds/rss/",
          dataType: "xml",
          success: function(data){
-           xmlParser(data, "AV Club", "item", "title", "link", divImage, "description");
+           xmlParser(data, "AV Club", "item", "title", "link", divImage, ["description", "src"]);
          }
         });
     }
@@ -83,7 +85,7 @@ $(document).ready(function () {
          url:  "http://www.vox.com/rss/index.xml",
          dataType: "xml",
          success: function(data){
-           xmlParser(data, "Vox", "entry", "title", "id", divImage, "content");
+           xmlParser(data, "Vox", "entry", "title", "id", divImage, ["content", "src"]);
          }
         });
     }
@@ -149,7 +151,7 @@ $(document).ready(function () {
          url: 'http://www.theonion.com/feeds/rss',
          dataType: "xml",
          success: function(data){
-           xmlParser(data, "The Onion", "item", "title", "link", divImage, "description");
+           xmlParser(data, "The Onion", "item", "title", "link", divImage, ["description", "src"]);
          }
         });
     }    
@@ -190,9 +192,11 @@ $(document).ready(function () {
     if(data.includes("people")){
         $.ajax({
          type: "GET",
-         url: 'http://rss.people.com/web/people/rss/topheadlines/index.xml',
+         url: 'http://feeds.people.com/people/headlines',
          dataType: "xml",
-         success: xmlParserPeople
+         success: function(data){
+          xmlParser(data, "People", "item", "title", "link", normalImage, "media\\:content, content");
+         }
         });
     }    
     
@@ -201,7 +205,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://hosted.ap.org/lineups/TOPHEADS.rss?SITE=AP&SECTION=HOME',
          dataType: "xml",
-         success: xmlParserAP
+         success: function(data){
+           xmlParserImageInside(data, "AP", "item", "title", "link", apImage, "img:first");
+         }
         });
     }    
     
@@ -210,7 +216,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://fortune.com/feed/',
          dataType: "xml",
-         success: xmlParserFortune
+         success: function(data){
+          xmlParser(data, "Fortune", "item", "title:first", "link", normalImage, "media\\:content, content");
+         }
         });
     }    
     
@@ -219,7 +227,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://www.cosmopolitan.com/rss/all.xml/',
          dataType: "xml",
-         success: xmlParserCosmopolitan
+         success: function(data){
+           xmlParser(data, "Cosmopolitan", "item", "title", "link", cosmoImage, ["description", "href"]);
+         }
         });
     }    
     
@@ -228,7 +238,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://www.chicagotribune.com/rss2.0.xml',
          dataType: "xml",
-         success: xmlParserCT
+         success: function(data){
+           xmlParserImageInside(data, "Chicago Tribune", "item", "title", "link", tribuneImage, ["img:first", "src"]);
+         }
         });
     }    
 
@@ -237,7 +249,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://feeds.foxnews.com/foxnews/latest?format=xml',
          dataType: "xml",
-         success: xmlParserFox
+         success: function(data){
+           xmlParserImageInside(data, "Fox News", "item", "title", "link", innerImage, [".m img:first", "src"]);
+         }
         });
     }    
     
@@ -246,7 +260,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://feeds.ign.com/ign/all?format=xml',
          dataType: "xml",
-         success: xmlParserIGN
+         success: function(data){
+           xmlParserImageInside(data, "IGN", "item", "title", "link", ignImage, ['meta', 'content']);
+         }
         });
     }    
     
@@ -255,7 +271,9 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://feeds.bbci.co.uk/news/rss.xml#',
          dataType: "xml",
-         success: xmlParserBBC
+         success: function(data){
+           xmlParser(data, "BBC News", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
+         }
         });
     }    
     
@@ -264,7 +282,10 @@ $(document).ready(function () {
          type: "GET",
          url: 'http://feeds.reuters.com/reuters/topNews?format=xml',
          dataType: "xml",
-         success: xmlParserReuters
+         success: function(data){
+           console.log(data);
+           xmlParser(data, "Reuters", "item", "title", "link", divImage, ["description", "src"]);
+         }
         });
     }    
     
@@ -321,15 +342,84 @@ $(document).ready(function () {
     }
   }
   
+  
+  function xmlParserImageInside(data, source, itemRef, titleRef, urlRef, imageFunction, imageParams) {
+    var contents = [];
+    $(data).find(itemRef).each(function () {
+      var content = new ContentObject();
+      content.title= htmlDecode($(this).find(titleRef).text());
+      content.source=source;
+      content.url= $(this).find(urlRef).text();
+      $.ajax({
+        url: content.url,
+        success: function(data) {
+          var imger = imageFunction(data, imageParams);
+          if(imger){
+            content.img = imger;
+            contents.push(content);
+          }
+          if(contents.length == 7){
+            demos.push(contents);
+            if(demos.length == dataLength){
+              populateContentList(demos);
+            }
+          }
+        }
+      });
+    });
+  }
+  
   function normalImage(data, imgRef){
     return $(data).find(imgRef).attr("url");
   }
   
-  function divImage(data, imgRef){
-    var temp_html = $(data).find(imgRef).text();
+  function divImage(data, imgData){
+    var temp_html = $(data).find(imgData[0]).text();
     var div = $("<div></div>");
     div.html(temp_html);
-    return div.find("img").attr("src");
+    return div.find("img").attr(imgData[1]);
+  }
+  
+  function innerImage(data, imgData){
+    var url = $(data).find(imgData[0]).attr(imgData[1]);
+    if (url && url.startsWith("//")){
+      url = "http:" + url;
+    }
+    if (url && !url.includes(" ")){
+      return url;
+    }
+  }
+  
+  function tribuneImage(data, imgData){
+    if ($(data).find(imgData[0]).get(0)){
+      return $(data).find(imgData[0]).get(0).currentSrc;
+    }
+  }
+  
+  function ignImage(data, imgData){
+    var url;
+    $(data).find(imgData[0]).each(function(){
+      var content = $(this).get(0).content;
+      if (content && content.endsWith(".jpg")){
+        url = content;
+      }
+    });
+    if (url) return url;
+  }
+  
+  function apImage(data, imgRef){
+    var tempImg = $(data).find(".ap-smallphoto-img").attr("src");
+    if (tempImg){
+      var url = "http://hosted.ap.org" + tempImg;
+      url = url.replace("small", "big");
+      return url;
+    }
+  }
+  
+  function cosmoImage(data, imgData){
+    var tempImg = divImage(data, imgData);
+    tempImg = tempImg.replace("?resize=100:*", "");
+    return tempImg;
   }
   
   function buzzfeedImage(data, imgRef){
@@ -348,7 +438,7 @@ $(document).ready(function () {
   }
   
   function biImage(data, imgRef){
-    var temp = divImage(data, imgRef);
+    var temp = divImage(data, [imgRef, "src"]);
     if (temp && !temp.includes(" ")){
       return temp;
     } else {
@@ -382,33 +472,6 @@ $(document).ready(function () {
     if(demos.length == dataLength ){
       populateContentList(demos);
     }
-  }
-
-  function xmlParserESPN(xml) {
-    var espn_content = [];
-    $(xml).find("item").each(function () {
-      var demo = new ContentObject();
-      demo.title= htmlDecode($(this).find("description").text());
-      demo.source="ESPN";
-      demo.url= $(this).find("link").text();
-      $.ajax({
-        url: demo.url,
-        success: function(data) {
-          var imger = $(data).find("picture:first").find("source:first").attr("srcset");
-          if(imger){
-            demo.img = imger;
-            espn_content.push(demo);
-          }
-          if(espn_content.length > 5){
-              demos.push(espn_content);
-
-          }
-          if(demos.length == dataLength ){
-              populateContentList(demos);
-          }
-        }
-      });
-    });
   }
     
   function htmlDecode(input){

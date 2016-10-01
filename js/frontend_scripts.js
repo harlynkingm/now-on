@@ -112,7 +112,9 @@ $(document).ready(function(){
     $(block).find(".content-block").css('background-image', 'url(' + content.img + ')');
     $(block).find(".inner-news-article").text(content.title);
     $(block).find(".news-title").text(content.title);
-    if (content.title.length > 55){
+    if (content.title.length > 85){
+      $(block).find(".inner-news-title").addClass("inner-news-title-extra-small");
+    } else if (content.title.length > 55){
       $(block).find(".inner-news-title").addClass("inner-news-title-small");
     }
     $(block).find(".inner-news-src").text(content.source);
