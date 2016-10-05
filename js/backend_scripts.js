@@ -392,6 +392,230 @@ $(document).ready(function () {
         }
         });
     }
+    
+    if (data.includes("msnbc")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.msnbc.com/feeds/latest',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "MSNBC", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("huffington-post")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.huffingtonpost.com/feeds/index.xml',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Huffington Post", "item", "title", "link", huffPostImage, "enclosure");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("washington-post")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.washingtonpost.com/rss/national',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Washington Post", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("newsweek")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.newsweek.com/rss',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Newsweek", "item", "title", "link", divImage, ["description", "img", "src"]);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("time")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.feedburner.com/time/topstories?format=xml',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Time", "item", "title:first", "link", normalImage, "media\\:content, content");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("new-yorker")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.newyorker.com/feed/everything',
+         dataType: "xml",
+         success: function(data){
+           xmlParserImageInside(data, "The New Yorker", "item", "title", "link", innerImage, [".articleBody figure a", "href"]);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("vogue")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.vogue.com/rss/',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Vogue", "item", "title", "link", vogueImage, []);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("national-geographic")){
+        $.ajax({
+         type: "GET",
+         url: 'http://news.nationalgeographic.com/rss/index.rss',
+         dataType: "xml",
+         success: function(data){
+           xmlParserImageInside(data, "National Geographic", "item", "title", "link", innerImage, ["meta[name='twitter:image:src']", "content"]);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("mashable")){
+        $.ajax({
+         type: "GET",
+         url: 'http://mashable.com/rss/',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Mashable", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("vice")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.vice.com/rss',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Vice", "item", "title", "link", normalImage, "media\\:thumbnail, thumbnail");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("yahoo")){
+        $.ajax({
+         type: "GET",
+         url: 'http://news.yahoo.com/rss/',
+         dataType: "xml",
+         success: function(data){
+           xmlParserImageInside(data, "Yahoo News", "item", "title", "link", innerImage, ["meta[name='twitter:image:src']", "content"]);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("mtv")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.mtv.com/news/feed/?redirected_from=www.mtv.com/rss/news/news_full.xml',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "MTV", "item", "title", "link", normalImage, "media\\:content, content");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("gizmodo")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.gawker.com/gizmodo/full',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Gizmodo", "item", "title", "link", upworthyImage, ["description", "img", "src"]);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("elite-daily")){
+        $.ajax({
+         type: "GET",
+         url: 'http://elitedaily.com/feed/',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Elite Daily", "item", "title:first", "link", normalImage, "media\\:content, content");
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("upworthy")){
+        $.ajax({
+         type: "GET",
+         url: 'http://feeds.feedburner.com/upworthy',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Upworthy", "item", "title", "link", upworthyImage, ["description", "img", "src"]);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
+    
+    if (data.includes("refinery29")){
+        $.ajax({
+         type: "GET",
+         url: 'http://www.refinery29.com/rss.xml',
+         dataType: "xml",
+         success: function(data){
+           xmlParser(data, "Refinery 29", "item", "title", "link", divImage, ["description", "img", "src"]);
+         },
+        error: function(){
+          dataLength--;
+        }
+        });
+    }
 
     if (data.length == 0){
       populateContent(data);
@@ -465,6 +689,31 @@ $(document).ready(function () {
       url = "http:" + url;
     }
     if (url && !url.includes(" ")){
+      return url;
+    }
+  }
+  
+  function upworthyImage(data, imgData){
+    var url = divImage(data, imgData);
+    if (url && !url.startsWith("http://feeds") && (url.endsWith("jpg") || url.endsWith("gif") || url.endsWith("png"))){
+      if (!url.startsWith("http")){
+        return "http:" + url;
+      } else {
+        return url;
+      }
+    }
+  }
+  
+  function vogueImage(data, imgData){
+    var content = $($(data).find("description")[0].nextElementSibling).text();
+    var url = innerImage(content, ["img", "src"]);
+    return url;
+  }
+  
+  function huffPostImage(data, imgData){
+    var url = normalImage(data, imgData);
+    if (url){
+      url = url.replace("74_58", "scalefit_630_noupscale");
       return url;
     }
   }

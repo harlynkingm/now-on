@@ -35,7 +35,23 @@ var sources = [
   new Source('reuters', "images/logos/reuters.jpg", "reuters.com"),  
   new Source('economist', "images/logos/economist.png", "economist.com"),  
   new Source('wired', "images/logos/wired.jpg", "wired.com"),  
-  new Source('ars-technica', "images/logos/ars-technica.png", "arstechnica.com")
+  new Source('ars-technica', "images/logos/ars-technica.png", "arstechnica.com"),
+  new Source('msnbc', "images/logos/msnbc.png", "msnbc.com"),
+  new Source('huffington-post', "images/logos/huffington-post.png", "huffingtonpost.com"),
+  new Source('washington-post', "images/logos/the-washington-post.jpg", "washingtonpost.com"),
+  new Source('newsweek', "images/logos/newsweek.jpg", "newsweek.com"),
+  new Source('time', "images/logos/time.png", "time.com"),
+  new Source('new-yorker', "images/logos/new-yorker.png", "newyorker.com"),
+  new Source('vogue', "images/logos/vogue.png", "vogue.com"),
+  new Source('national-geographic', "images/logos/national-geographic.png", "nationalgeographic.com"),
+  new Source('mashable', "images/logos/mashable.png", "mashable.com"),
+  new Source('vice', "images/logos/vice.png", "vice.com"),
+  new Source('yahoo', "images/logos/yahoo.png", "yahoo.com"),
+  new Source('mtv', "images/logos/mtv.png", "mtv.com"),
+  new Source('gizmodo', "images/logos/gizmodo.png", "gizmodo.com"),
+  new Source('elite-daily', "images/logos/elite-daily.jpg", "elitedaily.com"),
+  new Source('upworthy', "images/logos/upworthy.png", "upworthy.com"),
+  new Source('refinery29', "images/logos/refinery29.png", "refinery29.com")
 ];
 
 $(document).ready(function(){
@@ -65,7 +81,7 @@ $(document).ready(function(){
     getColor();
     setDefaults();
     var sourcePage = 0;
-    var totalPages = 3;
+    var totalPages = 5;
     getData('sources', checkSources);
 	
 	setInterval(function(){
